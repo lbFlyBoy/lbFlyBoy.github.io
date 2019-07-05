@@ -81,6 +81,94 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/10/Flutter Widget简介/" title="Flutter Widget" itemprop="url">Flutter Widget</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-10T13:18:20.000Z" itemprop="datePublished"> 发表于 2018-11-10</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p><strong>Widget 概念</strong></p>
+<p>首先我们需要了解下 widget 的概念，google 翻译过来叫小部件。将 widget 想象为一个可视化组件或与应用可视化方面交互的组件，同 view 可视化控件不同的是，widget 不是一个控件，而是对控件的描述，其实我们也不必非要纠结概念这个东西，当你用的多了，也就领悟这个概念了。</p>
+<p>在 flutter 中，所有的东西都是 widget ，下面代码中可以看到 Text 、AppBar、 AppDemo、Scaffold 都是widget 。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppDemo</span> <span class="keyword">extends</span> <span class="title">StatelessWidget</span> </span>&#123;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Scaffold(</span><br><span class="line">      appBar: <span class="keyword">new</span> AppBar(</span><br><span class="line">        title: <span class="keyword">new</span> Text(<span class="string">'flutter'</span>),</span><br><span class="line">      ),</span><br><span class="line">      body: <span class="keyword">new</span> Center(</span><br><span class="line">        child:<span class="keyword">new</span> Text(<span class="string">'content'</span>),</span><br><span class="line">      ),</span><br><span class="line">		);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>flutter 的核心思想就是用 widget 构建你的 UI 。并且它提供了一套丰富、强大的基础 widget ，可参考 ：<a href="https://flutterchina.club/widgets/" target="_blank" rel="noopener">https://flutterchina.club/widgets/</a></p>
+<p><strong>Widget 状态</strong></p>
+<p>在 flutter 中，widget 是不可变的，你需要去操纵 widget 的 state。widget 有状态跟无状态的区分。</p>
+<p><em>无状态 StatelessWidget</em></p>
+<p>StatelessWidget ( 无状态的 widget ) 在你构建初始化后不再进行改变。</p>
+<p>例如上面例子，代码中的 <code>child: new Text(&#39;content&#39;)</code> 这个内容 content 不会变。那么我们就可以用 StatelessWidget 的 Text 。假如我们点击按钮后希望内容改变，我们就需要了解下有状态的 widget 。</p>
+<p><em>有状态 StatefulWidget</em></p>
+<p>StatefulWidget ( 有状态的 widget ) 拥有一个 state 对象来存储它的状态数据，并在 widget 树重建时携带着它，因此状态不会丢失。一个 StatefulWidget 类对应一个 state 类，state 是与对应 StatefulWidget 维护的状态，</p>
+<p>当 state 被改变时，调用 <code>setState()</code> 方法通知 flutter framework 状态发生改变，重新调用 <code>build</code> 方法构建 widget 树，来进行更新操作，看下面实例。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">AppDemo</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	createState() =&gt; _AppDemoState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_AppDemoState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">AppDemo</span>&gt; </span>&#123;</span><br><span class="line">	<span class="built_in">String</span> _content = <span class="string">"content"</span>;</span><br><span class="line">	<span class="keyword">void</span> _updateContent() &#123;</span><br><span class="line">		setState(()&#123;</span><br><span class="line">			_content = <span class="string">"flutter content"</span>;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	Widget build(BuildContext context) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Scaffold(</span><br><span class="line">		appBar: <span class="keyword">new</span> AppBar(</span><br><span class="line">			title: TextPage(title: <span class="string">'flutter'</span>,),</span><br><span class="line">		),</span><br><span class="line">		body: <span class="keyword">new</span> Center(</span><br><span class="line">			child:<span class="keyword">new</span> Text(_content),</span><br><span class="line">		),</span><br><span class="line">		floatingActionButton: FloatingActionButton(</span><br><span class="line">        onPressed: _updateContent,</span><br><span class="line">        child: Icon(Icons.mode_edit),</span><br><span class="line">      ),</span><br><span class="line">		);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当点击按钮后，显示的内容就会更改为 flutter content </p>
+<p><strong>Widget 生命周期</strong></p>
+<p>对于一个前端开发，我们都比较关心生命周期这个话题，同样理解 Widget 生命周期对 flutter 开发也是这样的，例子：通过一个计数器 widget 的例子来理解这个话题。</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CounterWidget</span> <span class="keyword">extends</span> <span class="title">StatefulWidget</span> </span>&#123;</span><br><span class="line">	CounterWidget(&#123;<span class="keyword">this</span>.initCounter:<span class="number">0</span>&#125;);</span><br><span class="line">	<span class="keyword">final</span> <span class="built_in">int</span> initCounter;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	createState() =&gt; _CounterWidgetState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">_CounterWidgetState</span> <span class="keyword">extends</span> <span class="title">State</span>&lt;<span class="title">CounterWidget</span>&gt; </span>&#123;</span><br><span class="line">	<span class="built_in">int</span> _counter;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	<span class="keyword">void</span> initState() &#123;</span><br><span class="line">		<span class="keyword">super</span>.initState();</span><br><span class="line">		_counter = widget.initCounter;</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">'***************initState <span class="subst">$_counter</span>***************'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">  Widget build(BuildContext context) &#123;</span><br><span class="line">  	<span class="built_in">print</span>(<span class="string">'***************build***************'</span>);</span><br><span class="line">    <span class="keyword">return</span> Center(</span><br><span class="line">    	child: RaisedButton(</span><br><span class="line">      child: Text(<span class="string">'<span class="subst">$_counter</span>'</span>),</span><br><span class="line">      onPressed: ()=&gt;setState(()=&gt;++_counter),</span><br><span class="line">    ),</span><br><span class="line">   );</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">	<span class="keyword">void</span> didUpdateWidget(CounterWidget oldWidget) &#123;</span><br><span class="line">    <span class="keyword">super</span>.didUpdateWidget(oldWidget);</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'***************didUpdateWidget***************'</span>);</span><br><span class="line">  &#125;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	<span class="keyword">void</span> deactivate() &#123;</span><br><span class="line">		<span class="keyword">super</span>.deactivate();</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">"***************deactive***************"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	<span class="keyword">void</span> dispose() &#123;</span><br><span class="line">		<span class="keyword">super</span>.dispose();</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">"***************dispose***************"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	<span class="keyword">void</span> reassemble() &#123;</span><br><span class="line">		<span class="keyword">super</span>.reassemble();</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">"***************reassemble***************"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="meta">@override</span></span><br><span class="line">	<span class="keyword">void</span> didChangeDependencies() &#123;</span><br><span class="line">		<span class="keyword">super</span>.didChangeDependencies();</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">"***************didChangeDependencies***************"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过现象得结论：</p>
+<p><em>debug 启动运行结果：</em></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">***************initState <span class="number">0</span>*************** </span><br><span class="line">***************didChangeDependencies***************</span><br><span class="line">***************build***************</span><br></pre></td></tr></table></figure>
+<p><code>initState</code> ：该 widiget 插入到 widget 树结构时被调用，只调用一次，因此，该函数一般用来初始化操作，状态初始化、订阅子树事件通知。</p>
+<p><code>didChangeDependencies()</code>：当调用 <code>initState</code> 后会立即调用这个方法，这个方法是在 state 对象被创建好了但没有准备好构建 <code>build</code> 的时候调用的。</p>
+<p><code>build</code> : 调用这个方法来构建 widget 子树。触发的时机较多如：调用 <code>initState()</code>、<code>didChangeDependencies()</code>、<code>setState()</code>、<code>didUpdateWidget()</code>等方法后重新 build。</p>
+<p><em>点击保存按钮执行结果：</em></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">***************reassemble***************</span><br><span class="line">***************didUpdateWidget***************</span><br><span class="line">***************build***************</span><br></pre></td></tr></table></figure>
+<p><code>reassemble()</code>：专门为了开发调试而提供的，在热重载时会被调用。</p>
+<p><code>didUpdateWidget()</code>：在 widget 重新构建时，由 flutter framework 判断检测 widget 树种同一位置新旧节点，决定是否更新，调用该方法。</p>
+<p><em>移除 CounterWidget 执行结果：</em></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">***************reassemble***************</span><br><span class="line">***************deactive***************</span><br><span class="line">***************dispose***************</span><br></pre></td></tr></table></figure>
+<p><code>deactive</code>：当widget 对象从树中被移除时，会调用此方法。</p>
+<p><code>dispose</code>：当 widget 对象从树中被永久移除时调用 ，可以在此方法中释放资源。</p>
+<p><em>点击按钮执行结果：</em></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">***************build***************</span><br></pre></td></tr></table></figure>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/flutter-ios/">flutter ios</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/07/Flutter 开发环境搭建 ( For Mac )/" title="Flutter 开发环境搭建 ( For Mac )" itemprop="url">Flutter 开发环境搭建 ( For Mac )</a>
   </h1>
   <p class="article-author">By
@@ -1198,84 +1286,6 @@ person[&quot;sleep&quot;] = function () {
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2014/06/15/markdown语法/" title="Markdown--简单语法" itemprop="url">Markdown--简单语法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
-		
-  <p class="article-time">
-    <time datetime="2014-06-15T08:12:07.000Z" itemprop="datePublished"> 发表于 2014-06-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="Markdow–入门"><a href="#Markdow–入门" class="headerlink" title="Markdow–入门"></a>Markdow–入门</h2><h3 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h3><blockquote>
-<p>这里记录下简单的markdow 语法便于以后查阅。</p>
-</blockquote>
-<h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>文章内容较多时，可以用标题分段：</p>
-<pre><code>标题1
-======
-标题2
------
-## 大标题 
-### 小标题 
-</code></pre><h3 id="粗斜体"><a href="#粗斜体" class="headerlink" title="粗斜体"></a>粗斜体</h3><pre><code>*斜体文本*
-**粗体文本**
-***粗斜体文本*** 
-</code></pre><h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><pre><code>文字链接 [链接名称](http://链接网址) 
-例如:[博客地址](http://https://lbflyboy.github.io)
-网址链接 &lt;http://链接网址&gt; 
-</code></pre><h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>普通引用 </p>
-<pre><code>&gt; 引用文本前使用 [大于号+空格]
-</code></pre><h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><p>跟链接的方法区别在于前面加了个感叹号 !，这样是不是觉得好记多了呢？</p>
-<pre><code>![图片名称](http://图片网址)
-</code></pre><p>也可以使用 HTML 的图片语法来自定义图片的宽高大小</p>
-<pre><code>&lt;img src=&quot;htt://example.com/sample.png&quot; width=&quot;400&quot; height=&quot;100&quot;&gt;
-</code></pre><h3 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h3><p>如果另起一行，只需在当前行结尾加 2 个空格</p>
-<h3 id="分隔符"><a href="#分隔符" class="headerlink" title="分隔符"></a>分隔符</h3><p>如果你有写分割线的习惯，可以新起一行输入三个减号-。当前后都有段落时，请空出一行：</p>
-
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/Markdow/">Markdow</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1304,7 +1314,7 @@ person[&quot;sleep&quot;] = function () {
 			
 		
 			
-				<li><a href="/tags/flutter/" title="flutter">flutter<sup>1</sup></a></li>
+				<li><a href="/tags/flutter-ios/" title="flutter ios">flutter ios<sup>1</sup></a></li>
 			
 		
 			
@@ -1313,6 +1323,10 @@ person[&quot;sleep&quot;] = function () {
 		
 			
 				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/flutter/" title="flutter">flutter<sup>1</sup></a></li>
 			
 		
 			
