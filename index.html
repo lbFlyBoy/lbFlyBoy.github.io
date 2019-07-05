@@ -81,6 +81,118 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/07/Flutter 开发环境搭建 ( For Mac )/" title="Flutter 开发环境搭建 ( For Mac )" itemprop="url">Flutter 开发环境搭建 ( For Mac )</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="kevin li" target="_blank" itemprop="author">kevin li</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-07T12:21:45.000Z" itemprop="datePublished"> 发表于 2018-11-07</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>谷歌发布 <a href="https://github.com/flutter/flutter_web" target="_blank" rel="noopener">Flutter for web</a>，正式宣布 Flutter 成为全平台框架，支持手机、<code>Web</code>、桌面电脑和嵌入式设备。现在学跨平台应用开发，第一个要看的可能不是 <code>React Native</code>，而是 <code>Flutter</code>，来自<a href="http://www.ruanyifeng.com/blog/2019/05/weekly-issue-55.html" target="_blank" rel="noopener">阮一峰的评价</a>。</p>
+<p>学习一门开发框架，首先从配置框架的开发环境开始，这篇文章记录了自己在 <code>Mac</code> 电脑上如何搭建 <code>Flutter</code> 开发环境，参考<a href="https://flutterchina.club/get-started/install/" target="_blank" rel="noopener">中文文档</a>，也是有坑要踩的。</p>
+<p><strong>系统要求</strong></p>
+<p><code>Flutter</code> 支持在 <code>Window</code>、<code>MacOS</code>、<code>Linux</code>等操作系统环境下开发 。</p>
+<p><strong>安装 <code>Flutter</code></strong></p>
+<ol>
+<li>系统环境变量配置</li>
+</ol>
+<p>Google 提供的服务，国内无法访问的或速度慢的要死，所以下载资源需要翻墙或者官方提供的镜像，Flutter 官方为中国开发者搭建了<a href="https://flutter.dev/community/china" target="_blank" rel="noopener">临时镜像 for china</a>。</p>
+<p>在 .bash_profile 文件中添加镜像地址 ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export PUB_HOSTED_URL=https://pub.flutter-io.cn</span><br><span class="line">export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn</span><br></pre></td></tr></table></figure>
+<p>终端命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1、vim ~/.bash_profile</span><br><span class="line">2、将上面的镜像地址添加到该文件中，保存退出。</span><br><span class="line">3、source ~/.bash_profile 添加的地址生效</span><br></pre></td></tr></table></figure></p>
+<ol start="2">
+<li><p>下载 <code>Flutter SDK</code> </p>
+<p><code>Flutter</code> <a href="https://flutter.dev/docs/development/tools/sdk/releases?tab=macos" target="_blank" rel="noopener">官网下载地址</a>分为三个不同的版本：</p>
+</li>
+</ol>
+<ul>
+<li><p><code>Stable channel</code> (稳定版)</p>
+</li>
+<li><p><code>Dev channel</code>     (开发版)</p>
+<p>最新的完全测试过的版本。也包含了新功能，但是也会有一些 <code>&quot; bad &quot; dev builds</code>，可以查看 <a href="https://github.com/flutter/flutter/wiki/Bad-Builds" target="_blank" rel="noopener">Bad Builds</a> 列表。</p>
+</li>
+<li><p><code>Beta channel</code>    (测试版)</p>
+<p>每隔几周都会选取近几个月中最好的一个 <code>dev</code> 版本，当作 <code>beta</code> 版，这个版本是通过了<code>Google</code>的 <a href="https://github.com/flutter/flutter/wiki/Codelabs" target="_blank" rel="noopener">codelabs</a> 测试的。</p>
+</li>
+</ul>
+<p>建议大家选择稳定版进行开发，不过官网下载确实很慢，不过可以参考 <a href="https://flutter.io/community/china" target="_blank" rel="noopener">Using Flutter in China</a> 方法替换 <code>host</code> ，亲测有效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- Original URL:</span><br><span class="line">https://storage.googleapis.com/flutter_infra/releases/stable/windows/flutter_windows_v1.0.0-stable.zip</span><br><span class="line"></span><br><span class="line">- Mirrored URL:</span><br><span class="line">https://storage.flutter-io.cn/flutter_infra/releases/stable/windows/flutter_windows_v1.0.0-stable.zip</span><br></pre></td></tr></table></figure>
+<p>也可以到 <code>GitHub</code> 下载最新版 <a href="https://github.com/flutter/flutter" target="_blank" rel="noopener">Flutter SDK</a></p>
+<ol start="3">
+<li>安装<code>Flutter</code></li>
+</ol>
+<p>解压 <code>Flutter SDK</code> 到自定义目录 </p>
+<p>获取 <code>Flutter SDK</code> 解压缩后 <code>flutter/bin</code> 的完整路径 ，例如我的路径是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Users/admin/Documents/workspace/flutter/flutter/bin</span><br></pre></td></tr></table></figure>
+<p>解释下 <code>Mac</code> 中的 <code>$HOME</code> 是指定当前用户的主目录的环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">终端中输入 </span><br><span class="line">echo $HOME</span><br><span class="line">输出</span><br><span class="line">/User/admin</span><br></pre></td></tr></table></figure>
+<p>我们需要把 Flutter 命令所在目录添加到系统的 PATH 变量中，方便后续在任何终端直接使用，而不用切换到特定目录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:$HOME/Documents/workspace/flutter/flutter/bin</span><br></pre></td></tr></table></figure>
+<p>同添加镜像地址一样将这个添加到 <code>.bash_profile</code> 文件中 。</p>
+<p><strong>设置 Flutter 编译</strong></p>
+<p>在终端运行 <code>flutter doctor</code> 命令查看是否需要安装其它依赖项来完成安装，备注 (<code>Dart SDK</code> 已经包含在 <code>Flutter SDK</code>中无须再单独下载安装 )        </p>
+<p>执行该命令会得到相关工具配置的详细信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Doctor summary (to see all details, run flutter doctor -v):</span><br><span class="line">[✓] Flutter (Channel beta, v1.0.0, on Mac OS X 10.13.6 17G65, locale zh-Hans-US)</span><br><span class="line">[!] Android toolchain - develop for Android devices (Android SDK 26.0.2)</span><br><span class="line">    ! Some Android licenses not accepted.  To resolve this, run: flutter doctor</span><br><span class="line">      --android-licenses</span><br><span class="line">[!] iOS toolchain - develop for iOS devices (Xcode 10.1)</span><br><span class="line">    ✗ libimobiledevice and ideviceinstaller are not installed. To install with</span><br><span class="line">      Brew, run:</span><br><span class="line">        brew update</span><br><span class="line">        brew install --HEAD usbmuxd</span><br><span class="line">        brew link usbmuxd</span><br><span class="line">        brew install --HEAD libimobiledevice</span><br><span class="line">        brew install ideviceinstaller</span><br><span class="line">    ✗ ios-deploy not installed. To install with Brew:</span><br><span class="line">        brew install ios-deploy</span><br><span class="line">[✓] Android Studio (version 3.0)</span><br><span class="line">    ✗ Flutter plugin not installed; this adds Flutter specific functionality.</span><br><span class="line">    ✗ Dart plugin not installed; this adds Dart specific functionality.</span><br><span class="line">[✓] Connected device (1 available)</span><br><span class="line"></span><br><span class="line">! Doctor found issues in 2 categories.</span><br></pre></td></tr></table></figure>
+<p>我们只需要关心画 <code>✗</code> 的内容，然后按照提示安装所需的工具配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">✗ Flutter plugin not installed; this adds Flutter specific functionality.</span><br></pre></td></tr></table></figure>
+<p>对于上面的的提示错误 ，如果没用过 <code>Android Studio</code> 来说，可能不知道怎么解决，这里是说 <code>Android Studio</code> 需要安装 <code>Flutter</code> 插件，在 <code>Andriod Studio</code> 的偏好设置里。</p>
+<p><img src="https://cdn.sinaimg.cn.52ecy.cn/large/005BYqpgly1g30vcsmq9wj30st0itjun.jpg" alt></p>
+<p>直到 <code>flutter doctor</code> 的运行结果都是 <code>[✓]</code> ，编译环境工具配置就 <code>OK</code> 了。</p>
+<p><strong><code>IDE</code> 配置</strong></p>
+<p><code>Flutter</code> 的集成开发环境 <code>IDE</code> 有 <code>Andriod Studio</code> 、<code>VS Code</code>、<code>IntelliJ</code>等，不过这里我选择了 <code>Andriod Studio</code> ，毕竟 <code>Flutter</code> 是 <code>Google</code> 自家的产品，</p>
+<p><code>Andriod Studio</code> 创建 <code>Flutter</code> 工程，不过注意需要在偏好设置指定 <code>Flutter SDK path</code></p>
+<p><img src="https://cdn.sinaimg.cn.52ecy.cn/large/005BYqpgly1g30vyt1wqfj30st0itjuu.jpg" alt></p>
+<p>接下来创建工程一直选择 <code>next</code></p>
+<p><img src="https://cdn.sinaimg.cn.52ecy.cn/large/005BYqpgly1g30vvnzmhyj30q20rgtda.jpg" alt></p>
+<p><img src="https://cdn.sinaimg.cn.52ecy.cn/large/005BYqpgly1g30vvzuodoj30m80ie3zt.jpg" alt></p>
+<p>对于 <code>iOS</code>、<code>Andriod</code> 配置 ，其实大部分工作 <code>dector</code> 都跟踪解决了，对与模拟器真机调试 、证书安装等，因为我的电脑 <code>Xcode</code> 之前都配置好，所以一路下来都没有遇到问题，如果你遇到什么问题，欢迎交流学习 ，一起进步。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/flutter/">flutter</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2015/11/07/图片优化/" title="iOS 图片（一）" itemprop="url">iOS 图片（一）</a>
   </h1>
   <p class="article-author">By
@@ -1164,128 +1276,10 @@ person[&quot;sleep&quot;] = function () {
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2014/05/15/python语法 /" title="python基础语法（一）" itemprop="url">python基础语法（一）</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="kevin li" target="_blank" itemprop="author">kevin li</a>
-		
-  <p class="article-time">
-    <time datetime="2014-05-15T03:21:34.000Z" itemprop="datePublished"> 发表于 2014-05-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="python基础语法（一）"><a href="#python基础语法（一）" class="headerlink" title="python基础语法（一）"></a>python基础语法（一）</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>单行注释</p>
-<pre><code>用#号、三个单引号或者三个双引号加代码来注释
-如：# 第一步
-   print &apos;第一步&apos;
-   # 第二步
-   print &apos;第二步&apos;
-</code></pre><p>多行注释</p>
-<pre><code>’‘’ 这里是注释 &apos;&apos;&apos;
-&quot;&quot;&quot; 这里是注释 &quot;&quot;&quot;
-</code></pre><p>特殊注释</p>
-<pre><code># encoding = utf-8（等同于：# _*_ coding:utf-8 _*_)
-python2 中不支持项目代码中注释中文
-</code></pre><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>变量定义方法很简单（跟其他编程语言比较起来来看真滴太simple）</p>
-<pre><code>x = 5
-str = &quot;abc&quot;    
-</code></pre><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
-<li>Numbers (数值类型）</li>
-<li>Bool （Ture/False)</li>
-<li>String </li>
-<li>List</li>
-<li>Set</li>
-<li>Tuple (元组）</li>
-<li>Dictory</li>
-<li>NoneType (空类型)       </li>
-</ul>
-<h4 id="查看数据类型方法："><a href="#查看数据类型方法：" class="headerlink" title="查看数据类型方法："></a>查看数据类型方法：</h4><pre><code>type(数据)
-</code></pre><h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><p>python为强类型语言，不同类型的数据不能参与计算，所以会涉及到类型转换，例如：</p>
-<pre><code>a = 3
-b = &apos;4&apos;
-c = a + b
-运行的话会报错，因为变量a、b的数据类型不一致，需要转换成数据类型一致
-c = a + int(b) 或者 c = str(a) + b
-</code></pre><h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><p>幂运算: 3 的 10 次方</p>
-<pre><code>3 ** 10
-</code></pre><p>除法: 5 除以 2</p>
-<pre><code>除法 5 / 2 = 2.5
-整除 5 // 2 = 2
-余数 5 % 2 = 1
-</code></pre><p>比较运算符：10 大于 5 小于 20 如果其他编程语言形式为：</p>
-<pre><code>num = 10
-其他编程语言  num &gt; 5 &amp;&amp; num &lt; 20
-python语言   5 &lt; num &lt; 20
-</code></pre><h3 id="输入-输出"><a href="#输入-输出" class="headerlink" title="输入/输出"></a>输入/输出</h3><h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><p>python2</p>
-<pre><code>raw_input() 用户输入的内容为字符串处理
-  input()     用户输入的内容当做代码处理
-  eval()      函数就是把接受到的结果当做代码来处理
 
-  例如：
-  result = eval(&quot;1+1&quot;)
-  reslut = 2
-  所以input可以看做是raw_input 和 eval综合的结果
-</code></pre><p>python3</p>
-<pre><code>input()    用户输入的内容为字符串处理
-</code></pre><h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><p>python2/3</p>
-<pre><code>标准化输出
-name = &quot;jim&quot;
-age  = 18
-print &quot;我的名字是%s年龄是%d&quot;%(name,age)
-或
-print &quot;我的名字是{0}年龄是{1}&quot;,format(name,age)
-</code></pre><p>python3</p>
-<pre><code>sep
-print(1,2,3, sep=&quot;&amp;&quot;)  结果：1&amp;2&amp;3
-</code></pre><h3 id="分支语句-if-elif"><a href="#分支语句-if-elif" class="headerlink" title="分支语句 if   elif"></a>分支语句 if   elif</h3><p>条件判断  </p>
-<p>分数大于80并且小于100写法</p>
-<pre><code>score = 90
-写法一    if score &gt;=80 and score &lt;=100:
-写法二  if 80 &lt;= score &lt;= 100:
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/python/">python</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
+  <nav id="page-nav" class="clearfix">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+  </nav>
 
 </div>
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
@@ -1310,11 +1304,11 @@ print(1,2,3, sep=&quot;&amp;&quot;)  结果：1&amp;2&amp;3
 			
 		
 			
-				<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Markdow/" title="Markdow">Markdow<sup>1</sup></a></li>
+				<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
 			
 		
 			
@@ -1322,7 +1316,11 @@ print(1,2,3, sep=&quot;&amp;&quot;)  结果：1&amp;2&amp;3
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+				<li><a href="/tags/Markdow/" title="Markdow">Markdow<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/flutter/" title="flutter">flutter<sup>1</sup></a></li>
 			
 		
 		</ul>

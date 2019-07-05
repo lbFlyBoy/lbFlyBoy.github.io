@@ -4,22 +4,20 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
-    <title>git 常用命令 | canflyboy&#39;s blog</title>
+    <title>canflyboy&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="kevin li">
     
 
     
-    <meta name="keywords" content="git">
-<meta property="og:type" content="article">
-<meta property="og:title" content="git 常用命令">
-<meta property="og:url" content="http://yoursite.com/2014/10/12/git常用命令操作/index.html">
+    <meta property="og:type" content="website">
+<meta property="og:title" content="canflyboy&#39;s blog">
+<meta property="og:url" content="http://yoursite.com/page/2/index.html">
 <meta property="og:site_name" content="canflyboy&#39;s blog">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-11-25T12:49:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git 常用命令">
+<meta name="twitter:title" content="canflyboy&#39;s blog">
 
     
     <link rel="alternative" href="/atom.xml" title="canflyboy&#39;s blog" type="application/atom+xml">
@@ -75,93 +73,137 @@
 </div>
     </header>
     <div id="container">
-      <div id="main" class="post" itemscope itemprop="blogPost">
-  
-	<article itemprop="articleBody"> 
-		<header class="article-info clearfix">
+      <div id="main">
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/10/12/git常用命令操作/" title="git 常用命令" itemprop="url">git 常用命令</a>
+      <a href="/2014/05/15/python语法 /" title="python基础语法（一）" itemprop="url">python基础语法（一）</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="kevin li" target="_blank" itemprop="author">kevin li</a>
 		
   <p class="article-time">
-    <time datetime="2014-10-12T02:02:59.000Z" itemprop="datePublished"> 发表于 2014-10-12</time>
+    <time datetime="2014-05-15T03:21:34.000Z" itemprop="datePublished"> 发表于 2014-05-15</time>
     
   </p>
 </header>
-	<div class="article-content">
-		
-		<div id="toc" class="toc-article">
-			<strong class="toc-title">文章目录</strong>
-		
-			
-		
-		</div>
-		
-		  
-	</div>
-		<footer class="article-footer clearfix">
+    <div class="article-content">
+        
+        <h2 id="python基础语法（一）"><a href="#python基础语法（一）" class="headerlink" title="python基础语法（一）"></a>python基础语法（一）</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>单行注释</p>
+<pre><code>用#号、三个单引号或者三个双引号加代码来注释
+如：# 第一步
+   print &apos;第一步&apos;
+   # 第二步
+   print &apos;第二步&apos;
+</code></pre><p>多行注释</p>
+<pre><code>’‘’ 这里是注释 &apos;&apos;&apos;
+&quot;&quot;&quot; 这里是注释 &quot;&quot;&quot;
+</code></pre><p>特殊注释</p>
+<pre><code># encoding = utf-8（等同于：# _*_ coding:utf-8 _*_)
+python2 中不支持项目代码中注释中文
+</code></pre><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>变量定义方法很简单（跟其他编程语言比较起来来看真滴太simple）</p>
+<pre><code>x = 5
+str = &quot;abc&quot;    
+</code></pre><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
+<li>Numbers (数值类型）</li>
+<li>Bool （Ture/False)</li>
+<li>String </li>
+<li>List</li>
+<li>Set</li>
+<li>Tuple (元组）</li>
+<li>Dictory</li>
+<li>NoneType (空类型)       </li>
+</ul>
+<h4 id="查看数据类型方法："><a href="#查看数据类型方法：" class="headerlink" title="查看数据类型方法："></a>查看数据类型方法：</h4><pre><code>type(数据)
+</code></pre><h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><p>python为强类型语言，不同类型的数据不能参与计算，所以会涉及到类型转换，例如：</p>
+<pre><code>a = 3
+b = &apos;4&apos;
+c = a + b
+运行的话会报错，因为变量a、b的数据类型不一致，需要转换成数据类型一致
+c = a + int(b) 或者 c = str(a) + b
+</code></pre><h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><p>幂运算: 3 的 10 次方</p>
+<pre><code>3 ** 10
+</code></pre><p>除法: 5 除以 2</p>
+<pre><code>除法 5 / 2 = 2.5
+整除 5 // 2 = 2
+余数 5 % 2 = 1
+</code></pre><p>比较运算符：10 大于 5 小于 20 如果其他编程语言形式为：</p>
+<pre><code>num = 10
+其他编程语言  num &gt; 5 &amp;&amp; num &lt; 20
+python语言   5 &lt; num &lt; 20
+</code></pre><h3 id="输入-输出"><a href="#输入-输出" class="headerlink" title="输入/输出"></a>输入/输出</h3><h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><p>python2</p>
+<pre><code>raw_input() 用户输入的内容为字符串处理
+  input()     用户输入的内容当做代码处理
+  eval()      函数就是把接受到的结果当做代码来处理
+
+  例如：
+  result = eval(&quot;1+1&quot;)
+  reslut = 2
+  所以input可以看做是raw_input 和 eval综合的结果
+</code></pre><p>python3</p>
+<pre><code>input()    用户输入的内容为字符串处理
+</code></pre><h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><p>python2/3</p>
+<pre><code>标准化输出
+name = &quot;jim&quot;
+age  = 18
+print &quot;我的名字是%s年龄是%d&quot;%(name,age)
+或
+print &quot;我的名字是{0}年龄是{1}&quot;,format(name,age)
+</code></pre><p>python3</p>
+<pre><code>sep
+print(1,2,3, sep=&quot;&amp;&quot;)  结果：1&amp;2&amp;3
+</code></pre><h3 id="分支语句-if-elif"><a href="#分支语句-if-elif" class="headerlink" title="分支语句 if   elif"></a>分支语句 if   elif</h3><p>条件判断  </p>
+<p>分数大于80并且小于100写法</p>
+<pre><code>score = 90
+写法一    if score &gt;=80 and score &lt;=100:
+写法二  if 80 &lt;= score &lt;= 100:
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
 <div class="article-catetags">
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/git/">git</a>
+  <span></span> <a href="/tags/python/">python</a>
   </div>
 
 </div>
 
 
 
-	<div class="article-share" id="share">
-	
-	  <div data-url="http://yoursite.com/2014/10/12/git常用命令操作/" data-title="git 常用命令 | canflyboy&#39;s blog" data-tsina="" class="share clearfix">
-	  </div>
-	
-	</div>
 
+<div class="comments-count">
+	
+</div>
 
 </footer>
 
-   	       
-	</article>
-	
-<nav class="article-nav clearfix">
- 
- <div class="prev" >
- <a href="/2015/02/11/javascript基础_1/" title="javaScript基础语法（一）">
-  <strong>上一篇：</strong><br/>
-  <span>
-  javaScript基础语法（一）</span>
-</a>
+
+    </article>
+
+
+
+
+
+
+
+  <nav id="page-nav" class="clearfix">
+    <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
+
 </div>
-
-
-<div class="next">
-<a href="/2014/09/15/css 使用/"  title="CSS用法">
- <strong>下一篇：</strong><br/> 
- <span>CSS用法
-</span>
-</a>
-</div>
-
-</nav>
-
-	
-
-
-</div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
-
-  <div id="toc" class="toc-aside">
-  <strong class="toc-title">文章目录</strong>
- 
- 
- 
-  </div>
 
 <div id="asidepart">
 <div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
@@ -309,89 +351,12 @@ $(document).ready(function(){
       m.removeClass('moveMain');
       a.css('display', 'block').removeClass('fadeOut');
       o.css('display', 'none');
-      
-      $('#toc.toc-aside').css('display', 'none');
         
     }
   });
 });
 </script>
 
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var ai = $('.article-content>iframe'),
-      ae = $('.article-content>embed'),
-      t  = $('#toc'),
-      ta = $('#toc.toc-aside'),
-      o  = $('.openaside'),
-      c  = $('.closeaside');
-  if(ai.length>0){
-    ai.wrap('<div class="video-container" />');
-  };
-  if(ae.length>0){
-   ae.wrap('<div class="video-container" />');
-  };
-  c.click(function(){
-    ta.css('display', 'block').addClass('fadeIn');
-  });
-  o.click(function(){
-    ta.css('display', 'none');
-  });
-  $(window).scroll(function(){
-    ta.css("top",Math.max(140,320-$(this).scrollTop()));
-  });
-});
-</script>
-
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var $this = $('.share'),
-      url = $this.attr('data-url'),
-      encodedUrl = encodeURIComponent(url),
-      title = $this.attr('data-title'),
-      tsina = $this.attr('data-tsina'),
-      description = $this.attr('description');
-  var html = [
-  '<div class="hoverqrcode clearfix"></div>',
-  '<a class="overlay" id="qrcode"></a>',
-  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
-  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
-  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
-  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
-  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
-  '<span title="Share to"></span>'
-  ].join('');
-  $this.append(html);
-
-  $('.hoverqrcode').hide();
-
-  var myWidth = 0;
-  function updatehoverqrcode(){
-    if( typeof( window.innerWidth ) == 'number' ) {
-      myWidth = window.innerWidth;
-    } else if( document.documentElement && document.documentElement.clientWidth) {
-      myWidth = document.documentElement.clientWidth;
-    };
-    var qrsize = myWidth > 1024 ? 200:100;
-    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
-    var p = $('.article-share-qrcode').position();
-    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
-                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
-                          .qrcode(options);
-  };
-  $(window).resize(function(){
-    $('.hoverqrcode').hide();
-  });
-  $('.article-share-qrcode').click(function(){
-    updatehoverqrcode();
-    $('.hoverqrcode').toggle();
-  });
-  $('.article-share-qrcode').hover(function(){}, function(){
-      $('.hoverqrcode').hide();
-  });
-});   
-</script>
 
 
 
@@ -462,4 +427,4 @@ var _hmt = _hmt || [];
 <!-- Tiny_search End -->
 
   </body>
-</html>
+ </html>
