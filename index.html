@@ -81,6 +81,92 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2018/11/23/Flutter 混合开发 (交互通信）/" title="Flutter 混合开发 (交互通信)" itemprop="url">Flutter 混合开发 (交互通信)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-23T06:39:21.000Z" itemprop="datePublished"> 发表于 2018-11-23</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <p>上篇我们介绍了 Flutter 模块集成到已有的项目工程，接下来我们看看 Native 跟 Flutter 间的交互问题。</p>
+<p><strong><em>交互通信</em></strong></p>
+<p>Flutter 与原生之间的通信依赖灵活的消息传递方式：</p>
+<p>1，Flutter 部分通过平台通道将消息发送到其应用程序的所在的宿主环境（原生应用）。</p>
+<p>2，宿主环境通过监听平台通道，接收消息。然后它会调用平台的 API，响应 Flutter 发送的消息。</p>
+<p><strong><em>Flutter主动 调用 宿主环境</em></strong></p>
+<p>在 Flutter 中通过 MethodChannel 的 API 可以发送与方法相对于的消息，宿主环境  iOS 中通过 FlutterMethodChannel 接受方法的调用并返回结果。</p>
+<p>Flutter 需要引入 <code>services.dart</code> 模块才可以使用 MethodChannel </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/services.dart'</span>;</span><br></pre></td></tr></table></figure>
+<p>Flutter 中的调用代码</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> methodChannel = <span class="keyword">const</span> MethodChannel(<span class="string">"com.pages.flutter/call_native"</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">RaisedButton(</span><br><span class="line">        child: Text(<span class="string">"call_native_method_no_params"</span>),</span><br><span class="line">        onPressed: ()&#123;</span><br><span class="line">      		   methodChannel.invokeMethod(<span class="string">"call_native_method_no_params"</span>,<span class="keyword">null</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">      RaisedButton(</span><br><span class="line">        child: Text(<span class="string">"call_native_method_params"</span>),</span><br><span class="line">        onPressed: ()&#123;</span><br><span class="line">          <span class="built_in">Map</span>&lt;<span class="built_in">String</span>,<span class="built_in">String</span>&gt; params = &#123;<span class="string">"params"</span>:<span class="string">"flutter params"</span>&#125;;</span><br><span class="line">          methodChannel.invokeMethod(<span class="string">"call_native_method_params"</span>,params);</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">      RaisedButton(</span><br><span class="line">        child: Text(<span class="string">"call_native_method_native_result_callback"</span>),</span><br><span class="line">        onPressed: ()&#123;</span><br><span class="line">          _nativeCallbackWithParams();</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">      Text(_content,style: TextStyle(color: Colors.red),)</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;<span class="built_in">Null</span>&gt; _nativeCallbackWithParams() <span class="keyword">async</span>&#123;</span><br><span class="line">  <span class="keyword">dynamic</span> result;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">      result = <span class="keyword">await</span> methodChannel.invokeMethod(</span><br><span class="line">            <span class="string">"call_native_method_native_result_callback"</span>, <span class="keyword">null</span>);</span><br><span class="line">  &#125; on PlatformException <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    result = <span class="string">"Failed to get params: '<span class="subst">$&#123;e.message&#125;</span>'."</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  setState(() &#123;</span><br><span class="line">    _content = result;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>iOS 中的调用代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FlutterViewController* flutterViewController = [[FlutterViewController alloc] init];</span><br><span class="line">flutterViewController.fd_prefersNavigationBarHidden = YES;</span><br><span class="line">FlutterMethodChannel * messageChannel = [FlutterMethodChannel methodChannelWithName:@&quot;com.pages.flutter/call_native&quot; binaryMessenger:flutterViewController];</span><br><span class="line">[messageChannel setMethodCallHandler:^(FlutterMethodCall * _Nonnull call, FlutterResult  _Nonnull result) &#123;</span><br><span class="line">        NSLog(@&quot;flutter call native：\n method=%@ \n arguments = %@&quot;,call.method,call.arguments);</span><br><span class="line">        if ([call.method isEqualToString:@&quot;call_native_method_native_result_callback&quot;]) &#123;</span><br><span class="line">            if (result) &#123;</span><br><span class="line">                result(@&quot;flutter hello&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else if([call.method isEqualToString:@&quot;call_native_method_pop_flutter_nav&quot;])&#123;</span><br><span class="line">            [weakSelf.navigationController popViewControllerAnimated:YES];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">[self.navigationController pushViewController:flutterViewController animated:YES];</span><br></pre></td></tr></table></figure>
+<p>分别看下控制台输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flutter call native：</span><br><span class="line">method=call_native_method_no_params </span><br><span class="line">arguments = (null)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">flutter call native：</span><br><span class="line">method=call_native_method_params </span><br><span class="line">arguments = &#123;</span><br><span class="line">  params = &quot;flutter params&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第三个事件会在 Flutter 页面显示flutter hello 该值由宿主环境返回。</p>
+<p><font color="red">注意:</font> 这里有个设计上的细节，上节提到过就是导航栏的问题，因为宿主环境有个导航栏，而 Flutter 自身也有导航栏，出现了矛盾，到底我们应该保留宿主环境的，还是 Flutter 页面使用自身，隐藏宿主环境的导航栏。我个人觉得后则更合理，Flutter 页面更了解自己导航栏具体功能、主题、交互及显示，我们只需要处理点击返回按钮 pop 回到宿主环境中，如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">appBar: AppBar(</span><br><span class="line">      title: Text(<span class="string">'Flutter Page'</span>) ,</span><br><span class="line">      leading: IconButton(icon: Icon(Icons.arrow_back_ios), onPressed:()=&gt;methodChannel.invokeMethod(<span class="string">"call_native_method_pop_flutter_nav"</span>,<span class="keyword">null</span>)),</span><br><span class="line">    ),</span><br></pre></td></tr></table></figure>
+<p>我们只需要在宿主环境中监听到该事件后调用导航的 pop 功能。</p>
+<p><strong><em>宿主环境主动调用 Flutter</em></strong></p>
+<p>一般可以用作宿主环境为 Flutter 提供参数</p>
+<p>EventChannel 是 Flutter 监听宿主环境的 API ，FlutterEventChannel 是 iOS 宿主环境与 Flutter 交互平台通道的 API 。</p>
+<p>Flutter 代码片段</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> EventChannel eventChannel = <span class="keyword">const</span> EventChannel(<span class="string">'com.pages.flutter/call_flutter'</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> initState()&#123;</span><br><span class="line">  <span class="keyword">super</span>.initState();</span><br><span class="line"> eventChannel.receiveBroadcastStream(<span class="number">12345</span>).listen(_onEvent,onError: _onError);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> _onEvent(<span class="built_in">Object</span> event)&#123;</span><br><span class="line">  setState(() &#123;</span><br><span class="line">    _content = event.toString();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> _onError(<span class="built_in">Object</span> error)&#123;</span><br><span class="line">  setState(() &#123;</span><br><span class="line">    _content = error.toString();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>iOS 宿主环境代码片段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSString *eventChannelName = @&quot;com.pages.flutter/call_flutter&quot;;</span><br><span class="line">FlutterEventChannel *eventChannel = [FlutterEventChannel eventChannelWithName:eventChannelName binaryMessenger:flutterViewController];</span><br><span class="line">[eventChannel setStreamHandler:self];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (FlutterError *)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)events &#123;</span><br><span class="line">    if (events) &#123;</span><br><span class="line">        events(@&quot;hi flutter&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (FlutterError* _Nullable)onCancelWithArguments:(id _Nullable)arguments &#123;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两端交互通信方式就是这样的，这里也只是介绍了他们通信的方式，具体如何优雅的封装、规范交互流程还需要我们自己去考虑下。</p>
+
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/flutter/">flutter</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2018/11/20/Flutter 混合开发(集成到原生 iOS 项目)/" title="Flutter 混合开发(集成到原生 iOS 项目)" itemprop="url">Flutter 混合开发(集成到原生 iOS 项目)</a>
   </h1>
   <p class="article-author">By
@@ -1091,222 +1177,6 @@ JSON.parse(jsonData)
 
 
 
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/02/11/javascript基础_1/" title="javaScript基础语法（一）" itemprop="url">javaScript基础语法（一）</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
-		
-  <p class="article-time">
-    <time datetime="2015-02-11T11:34:40.000Z" itemprop="datePublished"> 发表于 2015-02-11</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>注释同大部分语言</p>
-<p><b> 单行</b></p>
-<pre><code>// 单行注释
-</code></pre><p><b> 多行</b></p>
-<pre><code>/*
-    多行注释
- */
-</code></pre><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><b> 检查数据类型的方法  typeof</b></p>
-<p><b> NaN (Not a Number)</b></p>
-<pre><code>console.log(&quot;z&quot; - 10) 结果：NaN
-</code></pre><p><b> 空数据类型（不同语言差异性比较大）</b></p>
-<pre><code>undefined:通常情况下， 当我们试图访问某个不存在的或者没有赋值的变量时，就会得到一个undefined值
-null:而null值就完全是另外一回事啦。 他不能通过javascript来自动赋值，也就是说必须要我们自己手动来给某个变量赋值为null：  
-</code></pre><p>null、 undefined 的区别可以看这里 <a href="http://www.cnblogs.com/MockingBirdHome/p/3398440.html" target="_blank" rel="noopener">JavaScript中undefined与null的区别</a>  </p>
-<p><b> 类型转换</b></p>
-<blockquote>
-<p>toString</p>
-</blockquote>
-<pre><code>var num = 123;
-var str = num.toString();
-</code></pre><blockquote>
-<p>String()</p>
-</blockquote>
-<pre><code>var num = 123;
-var str = String(num);
-</code></pre><blockquote>
-<p>“+”号 数值类型强转</p>
-</blockquote>
-<pre><code>var num = 123;
-var str = &quot;hello&quot;
-var result = num + str
-</code></pre><p><b> 字符串转数值类型</b></p>
-<blockquote>
-<p>Number()函数</p>
-</blockquote>
-<pre><code>var str = &quot;456&quot;
-var num = Number(str) 
-结果 456
-
-var str1 = &quot;4e5&quot;
-var num = Number(str1) 
-结果 NaN
-</code></pre><blockquote>
-<p>parseInt() parseFloat()</p>
-</blockquote>
-<pre><code>var str = &quot;123.45guor&quot;;
-console.log(parseInt(str));  结果 123
-console.log(parseFloat(str)); 结果 123.45
-</code></pre><p><b> 对象类型</b></p>
-<pre><code>var point = {x : 0, y : 0};     // 两个属性（特殊情况需要加引号比如👇）
-var book = {                    // 属性值有空格、连字符或者保留字必须加引号    
-            &quot;main title&quot; : &quot;JavaScript&quot;,
-            &quot;sub-title&quot;  : &quot;The Definitive Guide&quot;
-            }
-
-
-var person = new Object();
-person.name = &quot;zs&quot;;
-person.speack = function() {
-    console.log(this.name); // this只有在对象方法内有效
-}
-</code></pre><p><b> prototype 原型</b></p>
-<p>参考：   </p>
-<p><a href="http://www.cnblogs.com/yjf512/archive/2011/06/03/2071914.html" target="_blank" rel="noopener">JS中的prototype</a>  </p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">继承与原型链</a>  </p>
-<p><a href="https://www.zhihu.com/question/34183746/answer/58068402" target="_blank" rel="noopener">js中<strong>proto</strong>和prototype的区别和关系？</a></p>
-<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p><b> 函数作为参数</b></p>
-<pre><code>// a, b, fn作为函数getResult的参数
-function getResult(a, b, fn) {
-       return fn(a, b);
-    }
-
-var result = getResult(5, 6, function (a, b) {
-    return a + b;
-});
-</code></pre><h3 id="变量作用域问题"><a href="#变量作用域问题" class="headerlink" title="变量作用域问题"></a>变量作用域问题</h3><blockquote>
-<p>js不同与java、c语言特点：</p>
-</blockquote>
-<pre><code>{
-    var name = &apos;zs&apos;;
-}
-console.log(name);
-
-代码块中的变量js是可以访问的，也就是说js中只有函数中定义    
-的变量是局部变量，其他地方是全局变量    
-（当然除不带修饰符var的变量)
-</code></pre><blockquote>
-<p>函数中定义变量提现声明的问题：</p>
-</blockquote>
-<pre><code>func();
-var name = &apos;ls&apos;;
-function  func() {
-    console.log(name);
-    var name = &quot;zs&quot;;
-}
-
-答案是undefined
-这个怎么理解那，首先程序会在函数中找name变量，如果有会打印 
-函数内定义的变量，而变量的定义在打印之前，程序会将变量的声明     
-放到打印之前定义放到打印之后，所以答案你懂得
-</code></pre><h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>基本类型  number string boolean</p>
-<p>引用类型  Date String Number Object等</p>
-<p><b> 自定义对象</b></p>
-<blockquote>
-<p>通过构造函数自定义对象</p>
-</blockquote>
-<pre><code>function Person(name, age, gender) {
-    this.name = name;
-    this.age = age;
-    this.gender = gender;
-    this.running = function() {
-      console.log(this.name + &quot;is running&quot;);
-    };
-}
-var person = new Person(&quot;xm&quot;, 19, &quot;男&quot;);
-person.running();
-</code></pre><blockquote>
-<p>对象字面量</p>
-</blockquote>
-<pre><code>var student = {
-    name : &quot;llb&quot;,
-    age: 20,
-    gender:&quot;man&quot;,
-    sayHi:function () {
-      console.log(&quot;wo shi&quot; + this.name);
-    }
-};
-</code></pre><blockquote>
-<p>输出对象的属性和方法(for in)</p>
-</blockquote>
-<pre><code> for(var key in student) {
-   console.log(key);
-}
-</code></pre><blockquote>
-<p>判断对象是否含有某个属性（in/indexOf)</p>
-</blockquote>
-<pre><code>var obj = {
-    name:&quot;llz&quot;,
-    age:18,
-};
-// 注意name是字符串
-var isExist = &quot;name&quot; in obj; // true
-
-var arr = [1,45,3,10];
-indexOf() 方法返回指定值对应的索引(没有找到返回-1）
-</code></pre><blockquote>
-<p>给对象添加属性和方法（其他编译性语言实现起来比较麻烦)</p>
-</blockquote>
-<pre><code>var person = {
-        name:&quot;llz&quot;,
-        age:18
-    };
-// 添加属性height 方法sayHi、sleep     
-person.height = 1.8;
-// 点语法添加方法sayHi
-person.sayHi = function () {
-    console.log(person.name + &quot;sayHi I&apos;s height :&quot; + person.height);
-};
-// [字符串]添加方法sayHi
-person[&quot;sleep&quot;] = function () {
-    console.log(person.age + &quot;sayHi I&apos;s height :&quot; + person.height);
-};
-</code></pre>
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/javaScript/">javaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
 
   <nav id="page-nav" class="clearfix">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
@@ -1327,7 +1197,7 @@ person[&quot;sleep&quot;] = function () {
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/flutter/" title="flutter">flutter<sup>4</sup></a></li>
+				<li><a href="/tags/flutter/" title="flutter">flutter<sup>5</sup></a></li>
 			
 		
 			

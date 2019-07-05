@@ -1,0 +1,492 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>Flutter 混合开发 (交互通信) | 程序猿BANG Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="dreamlee">
+    
+
+    
+    <meta name="description" content="上篇我们介绍了 Flutter 模块集成到已有的项目工程，接下来我们看看 Native 跟 Flutter 间的交互问题。 交互通信 Flutter 与原生之间的通信依赖灵活的消息传递方式： 1，Flutter 部分通过平台通道将消息发送到其应用程序的所在的宿主环境（原生应用）。 2，宿主环境通过监听平台通道，接收消息。然后它会调用平台的 API，响应 Flutter 发送的消息。 Flutter">
+<meta name="keywords" content="flutter">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Flutter 混合开发 (交互通信)">
+<meta property="og:url" content="http://yoursite.com/2018/11/23/Flutter 混合开发 (交互通信）/index.html">
+<meta property="og:site_name" content="程序猿BANG Blog">
+<meta property="og:description" content="上篇我们介绍了 Flutter 模块集成到已有的项目工程，接下来我们看看 Native 跟 Flutter 间的交互问题。 交互通信 Flutter 与原生之间的通信依赖灵活的消息传递方式： 1，Flutter 部分通过平台通道将消息发送到其应用程序的所在的宿主环境（原生应用）。 2，宿主环境通过监听平台通道，接收消息。然后它会调用平台的 API，响应 Flutter 发送的消息。 Flutter">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-05T17:18:53.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Flutter 混合开发 (交互通信)">
+<meta name="twitter:description" content="上篇我们介绍了 Flutter 模块集成到已有的项目工程，接下来我们看看 Native 跟 Flutter 间的交互问题。 交互通信 Flutter 与原生之间的通信依赖灵活的消息传递方式： 1，Flutter 部分通过平台通道将消息发送到其应用程序的所在的宿主环境（原生应用）。 2，宿主环境通过监听平台通道，接收消息。然后它会调用平台的 API，响应 Flutter 发送的消息。 Flutter">
+
+    
+    <link rel="alternative" href="/atom.xml" title="程序猿BANG Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.jpg" alt="程序猿BANG Blog" title="程序猿BANG Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="程序猿BANG Blog">程序猿BANG Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2018/11/23/Flutter 混合开发 (交互通信）/" title="Flutter 混合开发 (交互通信)" itemprop="url">Flutter 混合开发 (交互通信)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
+		
+  <p class="article-time">
+    <time datetime="2018-11-23T06:39:21.000Z" itemprop="datePublished"> 发表于 2018-11-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>上篇我们介绍了 Flutter 模块集成到已有的项目工程，接下来我们看看 Native 跟 Flutter 间的交互问题。</p>
+<p><strong><em>交互通信</em></strong></p>
+<p>Flutter 与原生之间的通信依赖灵活的消息传递方式：</p>
+<p>1，Flutter 部分通过平台通道将消息发送到其应用程序的所在的宿主环境（原生应用）。</p>
+<p>2，宿主环境通过监听平台通道，接收消息。然后它会调用平台的 API，响应 Flutter 发送的消息。</p>
+<p><strong><em>Flutter主动 调用 宿主环境</em></strong></p>
+<p>在 Flutter 中通过 MethodChannel 的 API 可以发送与方法相对于的消息，宿主环境  iOS 中通过 FlutterMethodChannel 接受方法的调用并返回结果。</p>
+<p>Flutter 需要引入 <code>services.dart</code> 模块才可以使用 MethodChannel </p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'package:flutter/services.dart'</span>;</span><br></pre></td></tr></table></figure>
+<p>Flutter 中的调用代码</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> methodChannel = <span class="keyword">const</span> MethodChannel(<span class="string">"com.pages.flutter/call_native"</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">RaisedButton(</span><br><span class="line">        child: Text(<span class="string">"call_native_method_no_params"</span>),</span><br><span class="line">        onPressed: ()&#123;</span><br><span class="line">      		   methodChannel.invokeMethod(<span class="string">"call_native_method_no_params"</span>,<span class="keyword">null</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">      RaisedButton(</span><br><span class="line">        child: Text(<span class="string">"call_native_method_params"</span>),</span><br><span class="line">        onPressed: ()&#123;</span><br><span class="line">          <span class="built_in">Map</span>&lt;<span class="built_in">String</span>,<span class="built_in">String</span>&gt; params = &#123;<span class="string">"params"</span>:<span class="string">"flutter params"</span>&#125;;</span><br><span class="line">          methodChannel.invokeMethod(<span class="string">"call_native_method_params"</span>,params);</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">      RaisedButton(</span><br><span class="line">        child: Text(<span class="string">"call_native_method_native_result_callback"</span>),</span><br><span class="line">        onPressed: ()&#123;</span><br><span class="line">          _nativeCallbackWithParams();</span><br><span class="line">        &#125;,</span><br><span class="line">      ),</span><br><span class="line">      Text(_content,style: TextStyle(color: Colors.red),)</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Future&lt;<span class="built_in">Null</span>&gt; _nativeCallbackWithParams() <span class="keyword">async</span>&#123;</span><br><span class="line">  <span class="keyword">dynamic</span> result;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">      result = <span class="keyword">await</span> methodChannel.invokeMethod(</span><br><span class="line">            <span class="string">"call_native_method_native_result_callback"</span>, <span class="keyword">null</span>);</span><br><span class="line">  &#125; on PlatformException <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    result = <span class="string">"Failed to get params: '<span class="subst">$&#123;e.message&#125;</span>'."</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  setState(() &#123;</span><br><span class="line">    _content = result;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>iOS 中的调用代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FlutterViewController* flutterViewController = [[FlutterViewController alloc] init];</span><br><span class="line">flutterViewController.fd_prefersNavigationBarHidden = YES;</span><br><span class="line">FlutterMethodChannel * messageChannel = [FlutterMethodChannel methodChannelWithName:@&quot;com.pages.flutter/call_native&quot; binaryMessenger:flutterViewController];</span><br><span class="line">[messageChannel setMethodCallHandler:^(FlutterMethodCall * _Nonnull call, FlutterResult  _Nonnull result) &#123;</span><br><span class="line">        NSLog(@&quot;flutter call native：\n method=%@ \n arguments = %@&quot;,call.method,call.arguments);</span><br><span class="line">        if ([call.method isEqualToString:@&quot;call_native_method_native_result_callback&quot;]) &#123;</span><br><span class="line">            if (result) &#123;</span><br><span class="line">                result(@&quot;flutter hello&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else if([call.method isEqualToString:@&quot;call_native_method_pop_flutter_nav&quot;])&#123;</span><br><span class="line">            [weakSelf.navigationController popViewControllerAnimated:YES];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">[self.navigationController pushViewController:flutterViewController animated:YES];</span><br></pre></td></tr></table></figure>
+<p>分别看下控制台输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">flutter call native：</span><br><span class="line">method=call_native_method_no_params </span><br><span class="line">arguments = (null)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">flutter call native：</span><br><span class="line">method=call_native_method_params </span><br><span class="line">arguments = &#123;</span><br><span class="line">  params = &quot;flutter params&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第三个事件会在 Flutter 页面显示flutter hello 该值由宿主环境返回。</p>
+<p><font color="red">注意:</font> 这里有个设计上的细节，上节提到过就是导航栏的问题，因为宿主环境有个导航栏，而 Flutter 自身也有导航栏，出现了矛盾，到底我们应该保留宿主环境的，还是 Flutter 页面使用自身，隐藏宿主环境的导航栏。我个人觉得后则更合理，Flutter 页面更了解自己导航栏具体功能、主题、交互及显示，我们只需要处理点击返回按钮 pop 回到宿主环境中，如下：</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">appBar: AppBar(</span><br><span class="line">      title: Text(<span class="string">'Flutter Page'</span>) ,</span><br><span class="line">      leading: IconButton(icon: Icon(Icons.arrow_back_ios), onPressed:()=&gt;methodChannel.invokeMethod(<span class="string">"call_native_method_pop_flutter_nav"</span>,<span class="keyword">null</span>)),</span><br><span class="line">    ),</span><br></pre></td></tr></table></figure>
+<p>我们只需要在宿主环境中监听到该事件后调用导航的 pop 功能。</p>
+<p><strong><em>宿主环境主动调用 Flutter</em></strong></p>
+<p>一般可以用作宿主环境为 Flutter 提供参数</p>
+<p>EventChannel 是 Flutter 监听宿主环境的 API ，FlutterEventChannel 是 iOS 宿主环境与 Flutter 交互平台通道的 API 。</p>
+<p>Flutter 代码片段</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> EventChannel eventChannel = <span class="keyword">const</span> EventChannel(<span class="string">'com.pages.flutter/call_flutter'</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@override</span></span><br><span class="line"><span class="keyword">void</span> initState()&#123;</span><br><span class="line">  <span class="keyword">super</span>.initState();</span><br><span class="line"> eventChannel.receiveBroadcastStream(<span class="number">12345</span>).listen(_onEvent,onError: _onError);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> _onEvent(<span class="built_in">Object</span> event)&#123;</span><br><span class="line">  setState(() &#123;</span><br><span class="line">    _content = event.toString();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> _onError(<span class="built_in">Object</span> error)&#123;</span><br><span class="line">  setState(() &#123;</span><br><span class="line">    _content = error.toString();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>iOS 宿主环境代码片段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSString *eventChannelName = @&quot;com.pages.flutter/call_flutter&quot;;</span><br><span class="line">FlutterEventChannel *eventChannel = [FlutterEventChannel eventChannelWithName:eventChannelName binaryMessenger:flutterViewController];</span><br><span class="line">[eventChannel setStreamHandler:self];</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (FlutterError *)onListenWithArguments:(id)arguments eventSink:(FlutterEventSink)events &#123;</span><br><span class="line">    if (events) &#123;</span><br><span class="line">        events(@&quot;hi flutter&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (FlutterError* _Nullable)onCancelWithArguments:(id _Nullable)arguments &#123;</span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>两端交互通信方式就是这样的，这里也只是介绍了他们通信的方式，具体如何优雅的封装、规范交互流程还需要我们自己去考虑下。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/flutter/">flutter</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2018/11/23/Flutter 混合开发 (交互通信）/" data-title="Flutter 混合开发 (交互通信) | 程序猿BANG Blog" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2018/11/20/Flutter 混合开发(集成到原生 iOS 项目)/"  title="Flutter 混合开发(集成到原生 iOS 项目)">
+ <strong>下一篇：</strong><br/> 
+ <span>Flutter 混合开发(集成到原生 iOS 项目)
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/flutter/" title="flutter">flutter<sup>5</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/javaScript/" title="javaScript">javaScript<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Markdow/" title="Markdow">Markdow<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://yulingtianxia.com/#" target="_blank" title="yulingtianxia&#39;s Blog">yulingtianxia&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Make it run, make it run right, make it run fast <br/>
+			Time and tide wait for no man.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/lbFlyBoy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="dreamlee">dreamlee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

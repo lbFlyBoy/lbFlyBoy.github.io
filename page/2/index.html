@@ -81,6 +81,222 @@
         <header class="article-info clearfix">
   <h1 itemprop="name">
     
+      <a href="/2015/02/11/javascript基础_1/" title="javaScript基础语法（一）" itemprop="url">javaScript基础语法（一）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
+		
+  <p class="article-time">
+    <time datetime="2015-02-11T11:34:40.000Z" itemprop="datePublished"> 发表于 2015-02-11</time>
+    
+  </p>
+</header>
+    <div class="article-content">
+        
+        <h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>注释同大部分语言</p>
+<p><b> 单行</b></p>
+<pre><code>// 单行注释
+</code></pre><p><b> 多行</b></p>
+<pre><code>/*
+    多行注释
+ */
+</code></pre><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><b> 检查数据类型的方法  typeof</b></p>
+<p><b> NaN (Not a Number)</b></p>
+<pre><code>console.log(&quot;z&quot; - 10) 结果：NaN
+</code></pre><p><b> 空数据类型（不同语言差异性比较大）</b></p>
+<pre><code>undefined:通常情况下， 当我们试图访问某个不存在的或者没有赋值的变量时，就会得到一个undefined值
+null:而null值就完全是另外一回事啦。 他不能通过javascript来自动赋值，也就是说必须要我们自己手动来给某个变量赋值为null：  
+</code></pre><p>null、 undefined 的区别可以看这里 <a href="http://www.cnblogs.com/MockingBirdHome/p/3398440.html" target="_blank" rel="noopener">JavaScript中undefined与null的区别</a>  </p>
+<p><b> 类型转换</b></p>
+<blockquote>
+<p>toString</p>
+</blockquote>
+<pre><code>var num = 123;
+var str = num.toString();
+</code></pre><blockquote>
+<p>String()</p>
+</blockquote>
+<pre><code>var num = 123;
+var str = String(num);
+</code></pre><blockquote>
+<p>“+”号 数值类型强转</p>
+</blockquote>
+<pre><code>var num = 123;
+var str = &quot;hello&quot;
+var result = num + str
+</code></pre><p><b> 字符串转数值类型</b></p>
+<blockquote>
+<p>Number()函数</p>
+</blockquote>
+<pre><code>var str = &quot;456&quot;
+var num = Number(str) 
+结果 456
+
+var str1 = &quot;4e5&quot;
+var num = Number(str1) 
+结果 NaN
+</code></pre><blockquote>
+<p>parseInt() parseFloat()</p>
+</blockquote>
+<pre><code>var str = &quot;123.45guor&quot;;
+console.log(parseInt(str));  结果 123
+console.log(parseFloat(str)); 结果 123.45
+</code></pre><p><b> 对象类型</b></p>
+<pre><code>var point = {x : 0, y : 0};     // 两个属性（特殊情况需要加引号比如👇）
+var book = {                    // 属性值有空格、连字符或者保留字必须加引号    
+            &quot;main title&quot; : &quot;JavaScript&quot;,
+            &quot;sub-title&quot;  : &quot;The Definitive Guide&quot;
+            }
+
+
+var person = new Object();
+person.name = &quot;zs&quot;;
+person.speack = function() {
+    console.log(this.name); // this只有在对象方法内有效
+}
+</code></pre><p><b> prototype 原型</b></p>
+<p>参考：   </p>
+<p><a href="http://www.cnblogs.com/yjf512/archive/2011/06/03/2071914.html" target="_blank" rel="noopener">JS中的prototype</a>  </p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">继承与原型链</a>  </p>
+<p><a href="https://www.zhihu.com/question/34183746/answer/58068402" target="_blank" rel="noopener">js中<strong>proto</strong>和prototype的区别和关系？</a></p>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p><b> 函数作为参数</b></p>
+<pre><code>// a, b, fn作为函数getResult的参数
+function getResult(a, b, fn) {
+       return fn(a, b);
+    }
+
+var result = getResult(5, 6, function (a, b) {
+    return a + b;
+});
+</code></pre><h3 id="变量作用域问题"><a href="#变量作用域问题" class="headerlink" title="变量作用域问题"></a>变量作用域问题</h3><blockquote>
+<p>js不同与java、c语言特点：</p>
+</blockquote>
+<pre><code>{
+    var name = &apos;zs&apos;;
+}
+console.log(name);
+
+代码块中的变量js是可以访问的，也就是说js中只有函数中定义    
+的变量是局部变量，其他地方是全局变量    
+（当然除不带修饰符var的变量)
+</code></pre><blockquote>
+<p>函数中定义变量提现声明的问题：</p>
+</blockquote>
+<pre><code>func();
+var name = &apos;ls&apos;;
+function  func() {
+    console.log(name);
+    var name = &quot;zs&quot;;
+}
+
+答案是undefined
+这个怎么理解那，首先程序会在函数中找name变量，如果有会打印 
+函数内定义的变量，而变量的定义在打印之前，程序会将变量的声明     
+放到打印之前定义放到打印之后，所以答案你懂得
+</code></pre><h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>基本类型  number string boolean</p>
+<p>引用类型  Date String Number Object等</p>
+<p><b> 自定义对象</b></p>
+<blockquote>
+<p>通过构造函数自定义对象</p>
+</blockquote>
+<pre><code>function Person(name, age, gender) {
+    this.name = name;
+    this.age = age;
+    this.gender = gender;
+    this.running = function() {
+      console.log(this.name + &quot;is running&quot;);
+    };
+}
+var person = new Person(&quot;xm&quot;, 19, &quot;男&quot;);
+person.running();
+</code></pre><blockquote>
+<p>对象字面量</p>
+</blockquote>
+<pre><code>var student = {
+    name : &quot;llb&quot;,
+    age: 20,
+    gender:&quot;man&quot;,
+    sayHi:function () {
+      console.log(&quot;wo shi&quot; + this.name);
+    }
+};
+</code></pre><blockquote>
+<p>输出对象的属性和方法(for in)</p>
+</blockquote>
+<pre><code> for(var key in student) {
+   console.log(key);
+}
+</code></pre><blockquote>
+<p>判断对象是否含有某个属性（in/indexOf)</p>
+</blockquote>
+<pre><code>var obj = {
+    name:&quot;llz&quot;,
+    age:18,
+};
+// 注意name是字符串
+var isExist = &quot;name&quot; in obj; // true
+
+var arr = [1,45,3,10];
+indexOf() 方法返回指定值对应的索引(没有找到返回-1）
+</code></pre><blockquote>
+<p>给对象添加属性和方法（其他编译性语言实现起来比较麻烦)</p>
+</blockquote>
+<pre><code>var person = {
+        name:&quot;llz&quot;,
+        age:18
+    };
+// 添加属性height 方法sayHi、sleep     
+person.height = 1.8;
+// 点语法添加方法sayHi
+person.sayHi = function () {
+    console.log(person.name + &quot;sayHi I&apos;s height :&quot; + person.height);
+};
+// [字符串]添加方法sayHi
+person[&quot;sleep&quot;] = function () {
+    console.log(person.age + &quot;sayHi I&apos;s height :&quot; + person.height);
+};
+</code></pre>
+        
+        
+        <p class="article-more-link">
+          
+       </p>
+    </div>
+    <footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/javaScript/">javaScript</a>
+  </div>
+
+</div>
+
+
+
+
+<div class="comments-count">
+	
+</div>
+
+</footer>
+
+
+    </article>
+
+
+
+
+
+
+   
+    
+    <article class="post-expand post" itemprop="articleBody"> 
+        <header class="article-info clearfix">
+  <h1 itemprop="name">
+    
       <a href="/2014/10/12/git常用命令操作/" title="git 常用命令" itemprop="url">git 常用命令</a>
   </h1>
   <p class="article-author">By
@@ -418,7 +634,7 @@ print(1,2,3, sep=&quot;&amp;&quot;)  结果：1&amp;2&amp;3
 		<ul class="clearfix">
 		
 			
-				<li><a href="/tags/flutter/" title="flutter">flutter<sup>4</sup></a></li>
+				<li><a href="/tags/flutter/" title="flutter">flutter<sup>5</sup></a></li>
 			
 		
 			
