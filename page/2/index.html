@@ -37,6 +37,10 @@
       
 <div>
 		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.jpeg" alt="程序猿BANG Blog" title="程序猿BANG Blog"/></a>
+			</div>
+			
 			<div id="textlogo">
 				<h1 class="site-name"><a href="/" title="程序猿BANG Blog">程序猿BANG Blog</a></h1>
 				<h2 class="blog-motto"></h2>
@@ -71,539 +75,136 @@
     <div id="container">
       <div id="main">
 
-   
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2015/02/11/javascript基础_1/" title="javaScript基础语法（一）" itemprop="url">
+  
+    <h1 itemprop="name">javaScript基础语法（一）</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2015/02/11/javascript基础_1/" title="javaScript基础语法（一）" itemprop="url">javaScript基础语法（一）</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
-		
-  <p class="article-time">
-    <time datetime="2015-02-11T11:34:40.000Z" itemprop="datePublished"> 发表于 2015-02-11</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>注释同大部分语言</p>
-<p><b> 单行</b></p>
-<pre><code>// 单行注释
-</code></pre><p><b> 多行</b></p>
-<pre><code>/*
+     
+           <p itemprop="description" >基础语法注释注释同大部分语言
+ 单行
+// 单行注释
+ 多行
+/*
     多行注释
  */
-</code></pre><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><b> 检查数据类型的方法  typeof</b></p>
-<p><b> NaN (Not a Number)</b></p>
-<pre><code>console.log(&quot;z&quot; - 10) 结果：NaN
-</code></pre><p><b> 空数据类型（不同语言差异性比较大）</b></p>
-<pre><code>undefined:通常情况下， 当我们试图访问某个不存在的或者没有赋值的变量时，就会得到一个undefined值
-null:而null值就完全是另外一回事啦。 他不能通过javascript来自动赋值，也就是说必须要我们自己手动来给某个变量赋值为null：  
-</code></pre><p>null、 undefined 的区别可以看这里 <a href="http://www.cnblogs.com/MockingBirdHome/p/3398440.html" target="_blank" rel="noopener">JavaScript中undefined与null的区别</a>  </p>
-<p><b> 类型转换</b></p>
-<blockquote>
-<p>toString</p>
-</blockquote>
-<pre><code>var num = 123;
-var str = num.toString();
-</code></pre><blockquote>
-<p>String()</p>
-</blockquote>
-<pre><code>var num = 123;
-var str = String(num);
-</code></pre><blockquote>
-<p>“+”号 数值类型强转</p>
-</blockquote>
-<pre><code>var num = 123;
-var str = &quot;hello&quot;
-var result = num + str
-</code></pre><p><b> 字符串转数值类型</b></p>
-<blockquote>
-<p>Number()函数</p>
-</blockquote>
-<pre><code>var str = &quot;456&quot;
-var num = Number(str) 
-结果 456
-
-var str1 = &quot;4e5&quot;
-var num = Number(str1) 
-结果 NaN
-</code></pre><blockquote>
-<p>parseInt() parseFloat()</p>
-</blockquote>
-<pre><code>var str = &quot;123.45guor&quot;;
-console.log(parseInt(str));  结果 123
-console.log(parseFloat(str)); 结果 123.45
-</code></pre><p><b> 对象类型</b></p>
-<pre><code>var point = {x : 0, y : 0};     // 两个属性（特殊情况需要加引号比如👇）
-var book = {                    // 属性值有空格、连字符或者保留字必须加引号    
-            &quot;main title&quot; : &quot;JavaScript&quot;,
-            &quot;sub-title&quot;  : &quot;The Definitive Guide&quot;
-            }
-
-
-var person = new Object();
-person.name = &quot;zs&quot;;
-person.speack = function() {
-    console.log(this.name); // this只有在对象方法内有效
-}
-</code></pre><p><b> prototype 原型</b></p>
-<p>参考：   </p>
-<p><a href="http://www.cnblogs.com/yjf512/archive/2011/06/03/2071914.html" target="_blank" rel="noopener">JS中的prototype</a>  </p>
-<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">继承与原型链</a>  </p>
-<p><a href="https://www.zhihu.com/question/34183746/answer/58068402" target="_blank" rel="noopener">js中<strong>proto</strong>和prototype的区别和关系？</a></p>
-<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p><b> 函数作为参数</b></p>
-<pre><code>// a, b, fn作为函数getResult的参数
-function getResult(a, b, fn) {
-       return fn(a, b);
-    }
-
-var result = getResult(5, 6, function (a, b) {
-    return a + b;
-});
-</code></pre><h3 id="变量作用域问题"><a href="#变量作用域问题" class="headerlink" title="变量作用域问题"></a>变量作用域问题</h3><blockquote>
-<p>js不同与java、c语言特点：</p>
-</blockquote>
-<pre><code>{
-    var name = &apos;zs&apos;;
-}
-console.log(name);
-
-代码块中的变量js是可以访问的，也就是说js中只有函数中定义    
-的变量是局部变量，其他地方是全局变量    
-（当然除不带修饰符var的变量)
-</code></pre><blockquote>
-<p>函数中定义变量提现声明的问题：</p>
-</blockquote>
-<pre><code>func();
-var name = &apos;ls&apos;;
-function  func() {
-    console.log(name);
-    var name = &quot;zs&quot;;
-}
-
-答案是undefined
-这个怎么理解那，首先程序会在函数中找name变量，如果有会打印 
-函数内定义的变量，而变量的定义在打印之前，程序会将变量的声明     
-放到打印之前定义放到打印之后，所以答案你懂得
-</code></pre><h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>基本类型  number string boolean</p>
-<p>引用类型  Date String Number Object等</p>
-<p><b> 自定义对象</b></p>
-<blockquote>
-<p>通过构造函数自定义对象</p>
-</blockquote>
-<pre><code>function Person(name, age, gender) {
-    this.name = name;
-    this.age = age;
-    this.gender = gender;
-    this.running = function() {
-      console.log(this.name + &quot;is running&quot;);
-    };
-}
-var person = new Person(&quot;xm&quot;, 19, &quot;男&quot;);
-person.running();
-</code></pre><blockquote>
-<p>对象字面量</p>
-</blockquote>
-<pre><code>var student = {
-    name : &quot;llb&quot;,
-    age: 20,
-    gender:&quot;man&quot;,
-    sayHi:function () {
-      console.log(&quot;wo shi&quot; + this.name);
-    }
-};
-</code></pre><blockquote>
-<p>输出对象的属性和方法(for in)</p>
-</blockquote>
-<pre><code> for(var key in student) {
-   console.log(key);
-}
-</code></pre><blockquote>
-<p>判断对象是否含有某个属性（in/indexOf)</p>
-</blockquote>
-<pre><code>var obj = {
-    name:&quot;llz&quot;,
-    age:18,
-};
-// 注意name是字符串
-var isExist = &quot;name&quot; in obj; // true
-
-var arr = [1,45,3,10];
-indexOf() 方法返回指定值对应的索引(没有找到返回-1）
-</code></pre><blockquote>
-<p>给对象添加属性和方法（其他编译性语言实现起来比较麻烦)</p>
-</blockquote>
-<pre><code>var person = {
-        name:&quot;llz&quot;,
-        age:18
-    };
-// 添加属性height 方法sayHi、sleep     
-person.height = 1.8;
-// 点语法添加方法sayHi
-person.sayHi = function () {
-    console.log(person.name + &quot;sayHi I&apos;s height :&quot; + person.height);
-};
-// [字符串]添加方法sayHi
-person[&quot;sleep&quot;] = function () {
-    console.log(person.age + &quot;sayHi I&apos;s height :&quot; + person.height);
-};
-</code></pre>
+数据类型 检查数据类型的方法  typeof
+ NaN (Not a Number)
+console.log(&amp;quot;z&amp;quot; - 10) 结果：NaN
+ 空数据类型（不同语言</p>
         
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
+    
+    <time datetime="2015-02-11T11:34:40.000Z" itemprop="datePublished">2015-02-11</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/javaScript/">javaScript</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
-    
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2014/10/12/git常用命令操作/" title="git 常用命令" itemprop="url">git 常用命令</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
-		
-  <p class="article-time">
-    <time datetime="2014-10-12T02:02:59.000Z" itemprop="datePublished"> 发表于 2014-10-12</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        
-        
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
+<section class="post" itemscope itemprop="blogitem">
   
-  <span></span> <a href="/tags/git/">git</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+    <a href="/2014/10/12/git常用命令操作/" title="git 常用命令" itemprop="url">
+  
+    <h1 itemprop="name">git 常用命令</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2014/09/15/css 使用/" title="CSS用法" itemprop="url">CSS用法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
-		
-  <p class="article-time">
-    <time datetime="2014-09-15T12:30:49.000Z" itemprop="datePublished"> 发表于 2014-09-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
+     
+           <p itemprop="description" ></p>
         
-        <h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>文字属性</p>
-<pre><code>样式 font-style: italic、normal;
+    
+    <time datetime="2014-10-12T02:02:59.000Z" itemprop="datePublished">2014-10-12</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2014/09/15/css 使用/" title="CSS用法" itemprop="url">
+  
+    <h1 itemprop="name">CSS用法</h1>
+    
+     
+           <p itemprop="description" >CSS属性文字属性
+样式 font-style: italic、normal;
 粗细 font-weight: bold、lighter;
 大小 font-size: 20px;
 字体 font-family:‘微软雅黑’
 居中 text-align:center
-行高 line-height: 100px;
-</code></pre><p>布局</p>
-<h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><pre><code>1，像行内元素例如：a、img、span等想要设置宽高的话，需要把行内 标签转换成行内块级元素
-</code></pre><h3 id="常用的内容："><a href="#常用的内容：" class="headerlink" title="常用的内容："></a>常用的内容：</h3><pre><code>1，如果在标签内id、class属性内同时作用，id高于class会覆盖class作用的属性可以在
-后面加!important 修饰符
-
-2，数字判断：isNaN(内容) 判断内容是不是数字
-
-3，js中设置class属性：拿到标签设置 &quot;.className = &quot;
-</code></pre>
+行高 line</p>
         
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
+    
+    <time datetime="2014-09-15T12:30:49.000Z" itemprop="datePublished">2014-09-15</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/HTML/">HTML</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2014/06/15/markdown语法/" title="Markdown--简单语法" itemprop="url">
+  
+    <h1 itemprop="name">Markdown--简单语法</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2014/06/15/markdown语法/" title="Markdown--简单语法" itemprop="url">Markdown--简单语法</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
-		
-  <p class="article-time">
-    <time datetime="2014-06-15T08:12:07.000Z" itemprop="datePublished"> 发表于 2014-06-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="Markdow–入门"><a href="#Markdow–入门" class="headerlink" title="Markdow–入门"></a>Markdow–入门</h2><h3 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h3><blockquote>
-<p>这里记录下简单的markdow 语法便于以后查阅。</p>
-</blockquote>
-<h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>文章内容较多时，可以用标题分段：</p>
-<pre><code>标题1
+     
+           <p itemprop="description" >Markdow–入门导语
+这里记录下简单的markdow 语法便于以后查阅。
+
+标题文章内容较多时，可以用标题分段：
+标题1
 ======
 标题2
 -----
 ## 大标题 
 ### 小标题 
-</code></pre><h3 id="粗斜体"><a href="#粗斜体" class="headerlink" title="粗斜体"></a>粗斜体</h3><pre><code>*斜体文本*
+粗斜体*斜体文本*
 **粗体文本**
 ***粗斜体文本*** 
-</code></pre><h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><pre><code>文字链接 [链接名称](http://链接网址) 
-例如:[博客地址](http://https://lbflyboy.github.io)
-网址链接 &lt;http://链接网址&gt; 
-</code></pre><h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>普通引用 </p>
-<pre><code>&gt; 引用文本前使用 [大于号+空格]
-</code></pre><h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><p>跟链接的方法区别在于前面加了个感叹号 !，这样是不是觉得好记多了呢？</p>
-<pre><code>![图片名称](http://图片网址)
-</code></pre><p>也可以使用 HTML 的图片语法来自定义图片的宽高大小</p>
-<pre><code>&lt;img src=&quot;htt://example.com/sample.png&quot; width=&quot;400&quot; height=&quot;100&quot;&gt;
-</code></pre><h3 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h3><p>如果另起一行，只需在当前行结尾加 2 个空格</p>
-<h3 id="分隔符"><a href="#分隔符" class="headerlink" title="分隔符"></a>分隔符</h3><p>如果你有写分割线的习惯，可以新起一行输入三个减号-。当前后都有段落时，请空出一行：</p>
-
+链接文字链接 [链接名</p>
         
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
+    
+    <time datetime="2014-06-15T08:12:07.000Z" itemprop="datePublished">2014-06-15</time>
+  </a>
+</section>
 
 
-  <div class="article-tags">
+
+
+
+
   
-  <span></span> <a href="/tags/Markdow/">Markdow</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
-
-
-
-
-
-
-   
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2014/05/15/python语法 /" title="python基础语法（一）" itemprop="url">
+  
+    <h1 itemprop="name">python基础语法（一）</h1>
     
-    <article class="post-expand post" itemprop="articleBody"> 
-        <header class="article-info clearfix">
-  <h1 itemprop="name">
-    
-      <a href="/2014/05/15/python语法 /" title="python基础语法（一）" itemprop="url">python基础语法（一）</a>
-  </h1>
-  <p class="article-author">By
-       
-		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
-		
-  <p class="article-time">
-    <time datetime="2014-05-15T03:21:34.000Z" itemprop="datePublished"> 发表于 2014-05-15</time>
-    
-  </p>
-</header>
-    <div class="article-content">
-        
-        <h2 id="python基础语法（一）"><a href="#python基础语法（一）" class="headerlink" title="python基础语法（一）"></a>python基础语法（一）</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>单行注释</p>
-<pre><code>用#号、三个单引号或者三个双引号加代码来注释
+     
+           <p itemprop="description" >python基础语法（一）注释单行注释
+用#号、三个单引号或者三个双引号加代码来注释
 如：# 第一步
-   print &apos;第一步&apos;
+   print &amp;apos;第一步&amp;apos;
    # 第二步
-   print &apos;第二步&apos;
-</code></pre><p>多行注释</p>
-<pre><code>’‘’ 这里是注释 &apos;&apos;&apos;
-&quot;&quot;&quot; 这里是注释 &quot;&quot;&quot;
-</code></pre><p>特殊注释</p>
-<pre><code># encoding = utf-8（等同于：# _*_ coding:utf-8 _*_)
-python2 中不支持项目代码中注释中文
-</code></pre><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>变量定义方法很简单（跟其他编程语言比较起来来看真滴太simple）</p>
-<pre><code>x = 5
-str = &quot;abc&quot;    
-</code></pre><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
-<li>Numbers (数值类型）</li>
-<li>Bool （Ture/False)</li>
-<li>String </li>
-<li>List</li>
-<li>Set</li>
-<li>Tuple (元组）</li>
-<li>Dictory</li>
-<li>NoneType (空类型)       </li>
-</ul>
-<h4 id="查看数据类型方法："><a href="#查看数据类型方法：" class="headerlink" title="查看数据类型方法："></a>查看数据类型方法：</h4><pre><code>type(数据)
-</code></pre><h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><p>python为强类型语言，不同类型的数据不能参与计算，所以会涉及到类型转换，例如：</p>
-<pre><code>a = 3
-b = &apos;4&apos;
-c = a + b
-运行的话会报错，因为变量a、b的数据类型不一致，需要转换成数据类型一致
-c = a + int(b) 或者 c = str(a) + b
-</code></pre><h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><p>幂运算: 3 的 10 次方</p>
-<pre><code>3 ** 10
-</code></pre><p>除法: 5 除以 2</p>
-<pre><code>除法 5 / 2 = 2.5
-整除 5 // 2 = 2
-余数 5 % 2 = 1
-</code></pre><p>比较运算符：10 大于 5 小于 20 如果其他编程语言形式为：</p>
-<pre><code>num = 10
-其他编程语言  num &gt; 5 &amp;&amp; num &lt; 20
-python语言   5 &lt; num &lt; 20
-</code></pre><h3 id="输入-输出"><a href="#输入-输出" class="headerlink" title="输入/输出"></a>输入/输出</h3><h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><p>python2</p>
-<pre><code>raw_input() 用户输入的内容为字符串处理
-  input()     用户输入的内容当做代码处理
-  eval()      函数就是把接受到的结果当做代码来处理
-
-  例如：
-  result = eval(&quot;1+1&quot;)
-  reslut = 2
-  所以input可以看做是raw_input 和 eval综合的结果
-</code></pre><p>python3</p>
-<pre><code>input()    用户输入的内容为字符串处理
-</code></pre><h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><p>python2/3</p>
-<pre><code>标准化输出
-name = &quot;jim&quot;
-age  = 18
-print &quot;我的名字是%s年龄是%d&quot;%(name,age)
-或
-print &quot;我的名字是{0}年龄是{1}&quot;,format(name,age)
-</code></pre><p>python3</p>
-<pre><code>sep
-print(1,2,3, sep=&quot;&amp;&quot;)  结果：1&amp;2&amp;3
-</code></pre><h3 id="分支语句-if-elif"><a href="#分支语句-if-elif" class="headerlink" title="分支语句 if   elif"></a>分支语句 if   elif</h3><p>条件判断  </p>
-<p>分数大于80并且小于100写法</p>
-<pre><code>score = 90
-写法一    if score &gt;=80 and score &lt;=100:
-写法二  if 80 &lt;= score &lt;= 100:
-</code></pre>
+   print &amp;apos;第二步&amp;apos;
+多行注释
+’‘’ 这里是注释 &amp;apos;&amp;apos;&amp;ap</p>
         
-        
-        <p class="article-more-link">
-          
-       </p>
-    </div>
-    <footer class="article-footer clearfix">
-<div class="article-catetags">
-
-
-  <div class="article-tags">
-  
-  <span></span> <a href="/tags/python/">python</a>
-  </div>
-
-</div>
-
-
-
-
-<div class="comments-count">
-	
-</div>
-
-</footer>
-
-
-    </article>
+    
+    <time datetime="2014-05-15T03:21:34.000Z" itemprop="datePublished">2014-05-15</time>
+  </a>
+</section>
 
 
 
@@ -611,7 +212,7 @@ print(1,2,3, sep=&quot;&amp;&quot;)  结果：1&amp;2&amp;3
 
 
 
-  <nav id="page-nav" class="clearfix">
+  <nav id="page-nav" class="clearfix unexpand">
     <a class="extend prev" rel="prev" href="/"><span></span>Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
   </nav>
 
@@ -642,19 +243,19 @@ print(1,2,3, sep=&quot;&amp;&quot;)  结果：1&amp;2&amp;3
 			
 		
 			
-				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
-			
-		
-			
 				<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
 			
 		
 			
-				<li><a href="/tags/Markdow/" title="Markdow">Markdow<sup>1</sup></a></li>
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
 			
 		
 			
 				<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Markdow/" title="Markdow">Markdow<sup>1</sup></a></li>
 			
 		
 		</ul>
