@@ -4,25 +4,25 @@
 <head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
   
-    <title>javaScript高级（二） | 程序猿BANG Blog</title>
+    <title>Flutter 跨平台原理 | 程序猿BANG Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="dreamlee">
     
 
     
-    <meta name="description" content="闭包 格式   什么是闭包  通过修改返回的函数或者方法，来修改函数内部的变量。  为什么用闭包">
-<meta name="keywords" content="javaScript">
+    <meta name="description" content="通过最近对 Flutter 开发的大致了解，感受最深的简单概括就是：Widget 就是一切外加组合和响应式，我们开发的界面，通过组合其他的 Widget 来实现，当界面发生变化时，不会像我们原来 iOS 或者 Andriod 开发一样去直接修改 UI 元素，而是去去更新状态，根据新的状态来完成 UI 的构建，这一点是不是跟 Vue、React 很像。 关于 Widget 的具体使用，我也不打算去写">
+<meta name="keywords" content="flutter">
 <meta property="og:type" content="article">
-<meta property="og:title" content="javaScript高级（二）">
-<meta property="og:url" content="http://yoursite.com/2015/04/11/javascript高级_2/index.html">
+<meta property="og:title" content="Flutter 跨平台原理">
+<meta property="og:url" content="http://yoursite.com/2018/11/15/Flutter 原理之跨平台/index.html">
 <meta property="og:site_name" content="程序猿BANG Blog">
-<meta property="og:description" content="闭包 格式   什么是闭包  通过修改返回的函数或者方法，来修改函数内部的变量。  为什么用闭包">
+<meta property="og:description" content="通过最近对 Flutter 开发的大致了解，感受最深的简单概括就是：Widget 就是一切外加组合和响应式，我们开发的界面，通过组合其他的 Widget 来实现，当界面发生变化时，不会像我们原来 iOS 或者 Andriod 开发一样去直接修改 UI 元素，而是去去更新状态，根据新的状态来完成 UI 的构建，这一点是不是跟 Vue、React 很像。 关于 Widget 的具体使用，我也不打算去写">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2017-12-16T03:36:21.000Z">
+<meta property="og:updated_time" content="2019-07-05T17:14:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="javaScript高级（二）">
-<meta name="twitter:description" content="闭包 格式   什么是闭包  通过修改返回的函数或者方法，来修改函数内部的变量。  为什么用闭包">
+<meta name="twitter:title" content="Flutter 跨平台原理">
+<meta name="twitter:description" content="通过最近对 Flutter 开发的大致了解，感受最深的简单概括就是：Widget 就是一切外加组合和响应式，我们开发的界面，通过组合其他的 Widget 来实现，当界面发生变化时，不会像我们原来 iOS 或者 Andriod 开发一样去直接修改 UI 元素，而是去去更新状态，根据新的状态来完成 UI 的构建，这一点是不是跟 Vue、React 很像。 关于 Widget 的具体使用，我也不打算去写">
 
     
     <link rel="alternative" href="/atom.xml" title="程序猿BANG Blog" type="application/atom+xml">
@@ -84,14 +84,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2015/04/11/javascript高级_2/" title="javaScript高级（二）" itemprop="url">javaScript高级（二）</a>
+      <a href="/2018/11/15/Flutter 原理之跨平台/" title="Flutter 跨平台原理" itemprop="url">Flutter 跨平台原理</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
 		
   <p class="article-time">
-    <time datetime="2015-04-11T03:05:09.000Z" itemprop="datePublished"> 发表于 2015-04-11</time>
+    <time datetime="2018-11-15T05:34:45.000Z" itemprop="datePublished"> 发表于 2018-11-15</time>
     
   </p>
 </header>
@@ -100,20 +100,19 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#闭包"><span class="toc-number">1.</span> <span class="toc-text">闭包</span></a></li></ol>
+			
 		
 		</div>
 		
-		<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote>
-<p>格式</p>
-</blockquote>
-<blockquote>
-<p>什么是闭包</p>
-</blockquote>
-<pre><code>通过修改返回的函数或者方法，来修改函数内部的变量。
-</code></pre><blockquote>
-<p>为什么用闭包</p>
-</blockquote>
+		<p>通过最近对 Flutter 开发的大致了解，感受最深的简单概括就是：Widget 就是一切外加组合和响应式，我们开发的界面，通过组合其他的 Widget 来实现，当界面发生变化时，不会像我们原来 iOS 或者 Andriod 开发一样去直接修改 UI 元素，而是去去更新状态，根据新的状态来完成 UI 的构建，这一点是不是跟 Vue、React 很像。</p>
+<p>关于 Widget 的具体使用，我也不打算去写，如果需要对某个知识点需要深入探索下的话，可能会记录下，其实对 Widget 学习大家可以参考 Flutter Api 文档地址如下：<a href="https://api.flutter.dev/" target="_blank" rel="noopener">https://api.flutter.dev/</a> ，如果看英文吃力的话也可以中文网站 <a href="https://flutterchina.club/docs/" target="_blank" rel="noopener">https://flutterchina.club/docs/</a> 。</p>
+<p>要理解 Flutter 跨平台实现的原因，先了解下屏幕显示图像的基本原理。</p>
+<p>屏幕显示器都是有一个个的物理显示单元构成，每个物理单元称之为一个像素点，每一个像素点可以承载多种颜色的显示，屏幕显示器能够显示图像就是因为不同的像素点上呈现的不同的颜色，最终呈现出来一个完整的图像。</p>
+<p>通常说的同一面积屏幕显示器，屏幕分辨率越高，显示器可以呈现的元素就会越多，我们看到的画面就会越清晰。</p>
+<p>我们知道手机屏幕刷新频率是 60Hz ，当一帧画面显示完成后，准备下一帧时，显示器会发出一个垂直同步信号，这样在 1s 内显示就完成了 60 次这样的操作，而每次操作中，都是完成 CPU 将计算好的内容，同步到 GPU ，GPU 对要显示的内容进过渲染操作，放入到了缓冲区中，等待显示器去显示，整个操作都是有操作系统的硬件系统来完成的。</p>
+<p>iOS 、Andriod移动设备的 GUI 显示都是这样一个原理，其实不同操作系统 UI 控件，只是操作系统去操作硬件系统 API 的一层封装，如果我们直接操作底层 API 去完成 GUI 开发是一件非常痛苦的事。</p>
+<p>Flutter 只是用一种编程语言，也就是采用一套Dart API ，底层通过 OpenGL（操作系统 API 的一个封装库）这种跨平台的绘制库，来实现一套代码跨端使用，也就是说 Flutter 所谓跨平台只是 Dart 调用 OpenGL ，然后 OpenGL 再去调用操作系统底层的 API 。跟 ReactNative 、weex 不同的是，他们需要依赖 JavaScriptCore 引擎去跟原生应用的通信。</p>
+<p>当然我们不去谈论方案的优劣，本身他们选择的方向就不同。</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -122,7 +121,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/javaScript/">javaScript</a>
+  <span></span> <a href="/tags/flutter/">flutter</a>
   </div>
 
 </div>
@@ -131,7 +130,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2015/04/11/javascript高级_2/" data-title="javaScript高级（二） | 程序猿BANG Blog" data-tsina="" class="share clearfix">
+	  <div data-url="http://yoursite.com/2018/11/15/Flutter 原理之跨平台/" data-title="Flutter 跨平台原理 | 程序猿BANG Blog" data-tsina="" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -144,19 +143,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2015/09/11/button高亮_iOS/" title="UIButton 高亮状态无效问题">
-  <strong>上一篇：</strong><br/>
-  <span>
-  UIButton 高亮状态无效问题</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2015/02/27/javascript高级_1/"  title="javaScript高级（一）">
+<a href="/2018/11/10/Flutter Widget简介/"  title="Flutter Widget">
  <strong>下一篇：</strong><br/> 
- <span>javaScript高级（一）
+ <span>Flutter Widget
 </span>
 </a>
 </div>
@@ -172,7 +163,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#闭包"><span class="toc-number">1.</span> <span class="toc-text">闭包</span></a></li></ol>
+ 
  
   </div>
 
