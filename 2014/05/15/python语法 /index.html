@@ -1,0 +1,524 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>python基础语法（一） | canflyboy&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="kevin li">
+    
+
+    
+    <meta name="description" content="python基础语法（一）注释单行注释 用#号、三个单引号或者三个双引号加代码来注释 如：# 第一步    print &amp;apos;第一步&amp;apos;    # 第二步    print &amp;apos;第二步&amp;apos; 多行注释 ’‘’ 这里是注释 &amp;apos;&amp;apos;&amp;apos; &amp;quot;&amp;quot;&amp;quot; 这里是注释 &amp;quot;&amp;quot;&amp;quot; 特殊注释 # encod">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python基础语法（一）">
+<meta property="og:url" content="http://yoursite.com/2014/05/15/python语法 /index.html">
+<meta property="og:site_name" content="canflyboy&#39;s blog">
+<meta property="og:description" content="python基础语法（一）注释单行注释 用#号、三个单引号或者三个双引号加代码来注释 如：# 第一步    print &amp;apos;第一步&amp;apos;    # 第二步    print &amp;apos;第二步&amp;apos; 多行注释 ’‘’ 这里是注释 &amp;apos;&amp;apos;&amp;apos; &amp;quot;&amp;quot;&amp;quot; 这里是注释 &amp;quot;&amp;quot;&amp;quot; 特殊注释 # encod">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-11-11T02:56:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python基础语法（一）">
+<meta name="twitter:description" content="python基础语法（一）注释单行注释 用#号、三个单引号或者三个双引号加代码来注释 如：# 第一步    print &amp;apos;第一步&amp;apos;    # 第二步    print &amp;apos;第二步&amp;apos; 多行注释 ’‘’ 这里是注释 &amp;apos;&amp;apos;&amp;apos; &amp;quot;&amp;quot;&amp;quot; 这里是注释 &amp;quot;&amp;quot;&amp;quot; 特殊注释 # encod">
+
+    
+    <link rel="alternative" href="/atom.xml" title="canflyboy&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.jpg" alt="canflyboy&#39;s blog" title="canflyboy&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="canflyboy&#39;s blog">canflyboy&#39;s blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2014/05/15/python语法 /" title="python基础语法（一）" itemprop="url">python基础语法（一）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="kevin li" target="_blank" itemprop="author">kevin li</a>
+		
+  <p class="article-time">
+    <time datetime="2014-05-15T03:21:34.000Z" itemprop="datePublished"> 发表于 2014-05-15</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#python基础语法（一）"><span class="toc-number">1.</span> <span class="toc-text">python基础语法（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注释"><span class="toc-number">1.1.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量"><span class="toc-number">1.2.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-number">1.3.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看数据类型方法："><span class="toc-number">1.3.1.</span> <span class="toc-text">查看数据类型方法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#类型转换"><span class="toc-number">1.3.2.</span> <span class="toc-text">类型转换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运算符"><span class="toc-number">1.4.</span> <span class="toc-text">运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#输入-输出"><span class="toc-number">1.5.</span> <span class="toc-text">输入/输出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#输入"><span class="toc-number">1.5.1.</span> <span class="toc-text">输入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#输出"><span class="toc-number">1.5.2.</span> <span class="toc-text">输出</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分支语句-if-elif"><span class="toc-number">1.6.</span> <span class="toc-text">分支语句 if   elif</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="python基础语法（一）"><a href="#python基础语法（一）" class="headerlink" title="python基础语法（一）"></a>python基础语法（一）</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>单行注释</p>
+<pre><code>用#号、三个单引号或者三个双引号加代码来注释
+如：# 第一步
+   print &apos;第一步&apos;
+   # 第二步
+   print &apos;第二步&apos;
+</code></pre><p>多行注释</p>
+<pre><code>’‘’ 这里是注释 &apos;&apos;&apos;
+&quot;&quot;&quot; 这里是注释 &quot;&quot;&quot;
+</code></pre><p>特殊注释</p>
+<pre><code># encoding = utf-8（等同于：# _*_ coding:utf-8 _*_)
+python2 中不支持项目代码中注释中文
+</code></pre><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>变量定义方法很简单（跟其他编程语言比较起来来看真滴太simple）</p>
+<pre><code>x = 5
+str = &quot;abc&quot;    
+</code></pre><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
+<li>Numbers (数值类型）</li>
+<li>Bool （Ture/False)</li>
+<li>String </li>
+<li>List</li>
+<li>Set</li>
+<li>Tuple (元组）</li>
+<li>Dictory</li>
+<li>NoneType (空类型)       </li>
+</ul>
+<h4 id="查看数据类型方法："><a href="#查看数据类型方法：" class="headerlink" title="查看数据类型方法："></a>查看数据类型方法：</h4><pre><code>type(数据)
+</code></pre><h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><p>python为强类型语言，不同类型的数据不能参与计算，所以会涉及到类型转换，例如：</p>
+<pre><code>a = 3
+b = &apos;4&apos;
+c = a + b
+运行的话会报错，因为变量a、b的数据类型不一致，需要转换成数据类型一致
+c = a + int(b) 或者 c = str(a) + b
+</code></pre><h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><p>幂运算: 3 的 10 次方</p>
+<pre><code>3 ** 10
+</code></pre><p>除法: 5 除以 2</p>
+<pre><code>除法 5 / 2 = 2.5
+整除 5 // 2 = 2
+余数 5 % 2 = 1
+</code></pre><p>比较运算符：10 大于 5 小于 20 如果其他编程语言形式为：</p>
+<pre><code>num = 10
+其他编程语言  num &gt; 5 &amp;&amp; num &lt; 20
+python语言   5 &lt; num &lt; 20
+</code></pre><h3 id="输入-输出"><a href="#输入-输出" class="headerlink" title="输入/输出"></a>输入/输出</h3><h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><p>python2</p>
+<pre><code>raw_input() 用户输入的内容为字符串处理
+  input()     用户输入的内容当做代码处理
+  eval()      函数就是把接受到的结果当做代码来处理
+
+  例如：
+  result = eval(&quot;1+1&quot;)
+  reslut = 2
+  所以input可以看做是raw_input 和 eval综合的结果
+</code></pre><p>python3</p>
+<pre><code>input()    用户输入的内容为字符串处理
+</code></pre><h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><p>python2/3</p>
+<pre><code>标准化输出
+name = &quot;jim&quot;
+age  = 18
+print &quot;我的名字是%s年龄是%d&quot;%(name,age)
+或
+print &quot;我的名字是{0}年龄是{1}&quot;,format(name,age)
+</code></pre><p>python3</p>
+<pre><code>sep
+print(1,2,3, sep=&quot;&amp;&quot;)  结果：1&amp;2&amp;3
+</code></pre><h3 id="分支语句-if-elif"><a href="#分支语句-if-elif" class="headerlink" title="分支语句 if   elif"></a>分支语句 if   elif</h3><p>条件判断  </p>
+<p>分数大于80并且小于100写法</p>
+<pre><code>score = 90
+写法一    if score &gt;=80 and score &lt;=100:
+写法二  if 80 &lt;= score &lt;= 100:
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/python/">python</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2014/05/15/python语法 /" data-title="python基础语法（一） | canflyboy&#39;s blog" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2014/06/15/markdown语法/" title="Markdown--简单语法">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Markdown--简单语法</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#python基础语法（一）"><span class="toc-number">1.</span> <span class="toc-text">python基础语法（一）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#注释"><span class="toc-number">1.1.</span> <span class="toc-text">注释</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#变量"><span class="toc-number">1.2.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据类型"><span class="toc-number">1.3.</span> <span class="toc-text">数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#查看数据类型方法："><span class="toc-number">1.3.1.</span> <span class="toc-text">查看数据类型方法：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#类型转换"><span class="toc-number">1.3.2.</span> <span class="toc-text">类型转换</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#运算符"><span class="toc-number">1.4.</span> <span class="toc-text">运算符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#输入-输出"><span class="toc-number">1.5.</span> <span class="toc-text">输入/输出</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#输入"><span class="toc-number">1.5.1.</span> <span class="toc-text">输入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#输出"><span class="toc-number">1.5.2.</span> <span class="toc-text">输出</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分支语句-if-elif"><span class="toc-number">1.6.</span> <span class="toc-text">分支语句 if   elif</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/javaScript/" title="javaScript">javaScript<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Markdow/" title="Markdow">Markdow<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://yulingtianxia.com/#" target="_blank" title="yulingtianxia&#39;s Blog">yulingtianxia&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Make it run, make it run right, make it run fast <br/>
+			Time and tide wait for no man.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/lbFlyBoy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="kevin li">kevin li</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

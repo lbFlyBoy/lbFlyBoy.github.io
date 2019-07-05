@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>canflyboy&#39;s blog</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://yoursite.com/"/>
+  <updated>2017-12-13T13:19:31.000Z</updated>
+  <id>http://yoursite.com/</id>
+  
+  <author>
+    <name>kevin li</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>iOS 图片（一）</title>
+    <link href="http://yoursite.com/2015/11/07/%E5%9B%BE%E7%89%87%E4%BC%98%E5%8C%96/"/>
+    <id>http://yoursite.com/2015/11/07/图片优化/</id>
+    <published>2015-11-07T02:21:45.000Z</published>
+    <updated>2017-12-13T13:19:31.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="一：常见的图片格式、概念"><a href="#一：常见的图片格式、概念" class="headerlink" title="一：常见的图片格式、概念"></a>一：常见的图片格式、概念</h3><p>1.1 常见图片格式</p><p>png、jpeg(jpg)、gif、webP、pdf (矢量图)</p><pre><code>疑惑1：jpeg、jpg 啥关系？jpg 是 jpeg 的简写缩写，jpg 是后缀名、jpeg 既可以是后缀名，也可以代表图片文件的格式</code></pre><p>1.2 以上常见图片有什么区别</p><p>1.2.1 概念</p><pre><code>位图：就是一个像素数组,数组中的每个像素就代表着图片中的一个点。我们在应用中经常用到的 JPEG 和 PNG 图片就是位图。组成单位(像素)，特点缩放和旋转容易失真，同时文件容量较大像素: 一个像素所能表达的不同颜色数取决于比特每像素(BPP),通俗讲例如 8bit 位、16 比特位分别会有 256 色、65536 色。矢量图：组成单位(数学向量也就是矢量，比如物理学中的速度、加速度有大小和方向),放大后图像      不会失真，和分辨率无关(比如 iPhone 上的图片只需要一套，不需要区分 2x、3x,      可以减小资源包体积)透明通道: 透明通道也称 Alpha 通道，代表数字图像中像素点的透明信息。白色的 Alpha 像素用以定义不透明的彩色像素，而黑色的 Alpha 定以透明像素，黑白之间的灰阶则是彩色图片中的半透明部分硬编码、软编码、硬解码、软解码: 硬效率（细节看备注）</code></pre><p>1.2.2 位图间区别</p><blockquote><p>png、jpeg(jpg)、gif、webP 都为一种压缩了的位图图像</p></blockquote><p>特点:</p><pre><code>jepg: 支持有损压缩、可以控制压缩比、图像质量换得存储空间(iPhone 支持 jpeg 的硬编码和硬解码)png:  只支持无损压缩,压缩比是有上限的,优势在于支持完整的透明通道gif:  通常情况下只支持 256 种颜色、透明通道只有 1 bit、文件压缩比不高,  优势支持多帧动画webP: 支持有损和无损压缩、支持完整的透明通道、也支持多帧动画，并且没有版权问题，是一种       非常理想的图片格式,例如微博、微信、QQ、淘宝、网易新闻等等，每个 App 里都有 WebP 的身影</code></pre><p>1.2.3 项目资源图片优化</p><p>Ⅰ) <a href="https://tinypng.com/" target="_blank" rel="noopener"> png 图片压缩</a></p><pre><code>png 图片压缩,不是所 png 是无损压缩吗？怎么还压缩这里注意无损压缩不是 png 图片不支持压缩，是图片压缩有度</code></pre><p>Ⅱ) <a href="https://github.com/JohnWong/IconFont" target="_blank" rel="noopener">使用 IconFont </a></p><pre><code>优点：    1、图标集中处理，避免重复资源，设计师只要说明 Color、Size 就可以了    2、减少包大小，每个 IconFont 只是一小段文本，文件大小要比图片形式的 icon 小一个数量级    3、节省内存，IconFont 与普通文本一样是使用矢量图的方式绘制的特点：    针对一些简单的图</code></pre><p>Ⅲ) 使用 pdf 格式图片</p><pre><code>pdf 为矢量图跟屏幕分辨率没有关系，放到 xcode Assets.xcassets 目录中，iOS 本质上并不支持矢量图, 但是在编译阶段会将矢量图转化成目标设备对应的尺寸图(例如设备为 iPhone6 会生成对应的 2x 图片), 同时会利用 xcassets 的特性在 iOS8.3 以上设备下支持部分资源下载, 包瘦身的效果。</code></pre><h3 id="二：imageNamed、imageWithContentsOfFile、imageWithData-方法区别"><a href="#二：imageNamed、imageWithContentsOfFile、imageWithData-方法区别" class="headerlink" title="二：imageNamed、imageWithContentsOfFile、imageWithData 方法区别"></a>二：imageNamed、imageWithContentsOfFile、imageWithData 方法区别</h3><p>2.1 imageNamed:</p><pre><code>加载过程大概就是先从系统缓存中查找是否有，如果有就会直接加载；如果缓存中没有会查找这个方法从指定的 filePath 中加载然后缓存并返回这个对象。</code></pre><p>注意：<br>缓存数据存储在全局缓存中，不会随着 UIImag 的释放而释放。缓存由系统管理程序员无法操作<br>所以这个方法的优点就是当加载时会缓存图片，我们一般加载经常使用的图片会使用该方法。</p><p>2.2 imageWithContentsOfFile、imageWithData</p><pre><code>只加载图片，不会缓存图片数据，适合较大图片或者使用频次少的图片。</code></pre><p>注意：<br>这里说的不会缓存图片是相对 imageNamed: 方法的，imageWithContentsOfFile、imageWithData 的缓存会随 UIImage 对象的释放而释放</p><p>2.3 解惑</p><p>I) UIImage 中的缓存是怎么来的</p><pre><code>当调用 imageNamed: 方法时，系统会到指定 filepath 找对应的图片资源文件,然后将文件名放到 UIImage 对象中返回，并没有发生图片资源的读取或者解码操作。当 UIImage 对象赋值给 UIImageView 对象，UIImageView 渲染到屏幕上后系统才会真正调用解码方法，同时会将解码结果放到全局的缓存队列中，这个缓存只有在 APP 收到内存警告或推到后台才会清除。</code></pre><p>Ⅱ) imageWithContentsOfFile、imageWithData 同样会有缓存</p><pre><code>通过数据创建 UIImage 时，UIImage底层会调用 ImageIO 的 CGImageSourceCreateWithData() 方法，该方法可以指定是否要缓存解码后的数据，在64位机器上默认需要缓存（kCGImageSourceShouldCache）。之后再调用 CGImageSourceCreateImageAtIndex() 可以设置是否需要立即进行解码（kCGImageSourceShouldCacheImmediately），如果设置为不需要立刻解码，同样也是在图片渲染到屏幕上后系统才会真正调用解码方法，解码数据会缓存到 CGImage 内部与上面的方法不同，这种方式创建的缓存会随着 UIImage 的释放而被释放掉。</code></pre><p>Ⅲ) 缓存解压缩数据目前有什么问题</p><pre><code>我们知道了图片渲染到屏幕上，解压缩是必须的,因为 png、jpeg 都是经过压缩的位图。解压缩过程默认发生在主线程，如果加载大量图片肯定会影响性能</code></pre><h3 id="三：重新绘制图片，生成新的解压缩后的位图"><a href="#三：重新绘制图片，生成新的解压缩后的位图" class="headerlink" title="三：重新绘制图片，生成新的解压缩后的位图"></a>三：重新绘制图片，生成新的解压缩后的位图</h3><p>网络图片库通用做法：把图片用 CGContextDrawImage() 绘制到画布上，然后把画布数据取出当做数据</p><pre><code>大概涉及到的方法：CGImageSourceRef imageSource = CGImageSourceCreateIncremental(NULL)  //创建一个空的图片源CGImageSourceUpdateData(imageSource,data, false) // 新数据来更新图片源CGImageRef partialImageRef = CGImageSourceCreateImageAtIndex(imageSource,0,NULL)     // 创建图片来显示。CGContextRef context = CGBitmapContextCreate(NULL, width, height, 像素的每个颜色分量使用的 bit 数, 位图的每一行使用的字节数, 颜色空间, 位图的布局信息);CGContextDrawImage(context,{0,0,w,h},partialImageRef)partialImageRef = CGBitmapContextCreateImage(bmContext)[UIImage imageWithCGImage:partialImageRef scale:1 orientation:orientation];</code></pre><p>备注: </p><p><a href="http://www.jianshu.com/p/f8af20a5241c" target="_blank" rel="noopener">事务</a></p><p><a href="http://blog.csdn.net/zhubosa/article/details/51282246" target="_blank" rel="noopener">简单谈谈硬编码和软编码</a></p><p><a href="https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_images/dq_images.html#//apple_ref/doc/uid/TP30001066-CH212-SW3" target="_blank" rel="noopener">位图</a></p><p><a href="https://baike.baidu.com/item/%E7%9F%A2%E9%87%8F%E5%9B%BE" target="_blank" rel="noopener">矢量图</a></p><p><a href="http://blog.corneliamu.com/archives/95" target="_blank" rel="noopener">http://blog.corneliamu.com/archives/95</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;一：常见的图片格式、概念&quot;&gt;&lt;a href=&quot;#一：常见的图片格式、概念&quot; class=&quot;headerlink&quot; title=&quot;一：常见的图片格式、概念&quot;&gt;&lt;/a&gt;一：常见的图片格式、概念&lt;/h3&gt;&lt;p&gt;1.1 常见图片格式&lt;/p&gt;
+&lt;p&gt;png、jpeg(jpg
+      
+    
+    </summary>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>UIButton 高亮状态无效问题</title>
+    <link href="http://yoursite.com/2015/09/11/button%E9%AB%98%E4%BA%AE_iOS/"/>
+    <id>http://yoursite.com/2015/09/11/button高亮_iOS/</id>
+    <published>2015-09-11T03:24:19.000Z</published>
+    <updated>2017-11-18T09:02:46.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><p>平时我们设置按钮的高亮状态只需要这段代码：</p><pre><code>[self.button setImage:[UIImage imageNamed:@&quot;高亮状态下的图片&quot;] forState:UIControlStateHighlighted];</code></pre><p>项目中遇到个问题给按钮设置高亮状态，状态始终不显示，当手指按下去不立即离开才会出现。一开始还以为是项目中某些代码影响，干脆建个空的项目设置高亮状态没问题啊！！！，</p><p>抓元凶发现只要是在可滚动控件上(UIScrollView,UITableView等)的按钮，高亮状态都是无效的。</p><h3 id="为什么"><a href="#为什么" class="headerlink" title="为什么"></a>为什么</h3><p>经过google，发现原因是这样子滴：</p><ul><li>UIScrollView 有个属性delaysContentTouches，该值默认为YES，属性的意思是scrollView在接收到手势时会延迟300ms来判断该手势是否能够触发scrollView的滑动事件；值为NO时scrollView会立刻将手势分发到子视图上。<a href="http://itangqi.me/2016/04/18/the-first-meet-with-event-delivery" target="_blank" rel="noopener">事件分发机制</a></li><li>设置delaysContentTouches为NO又会造成另外一个问题，如果拖动scrollView的手势触发到其他手势的视图上那么scrollView无法触发滚动事件</li><li>scrollView中更一个方法 - (BOOL)touchesShouldCancelInContentView:(UIView *)view,该方法用来判断手势是否传递到View上，如果view的类型是UIControl返回YES,否则返回NO,于是乎问题得到了解决</li></ul><h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><blockquote><p>简单办法<br>定义一个类继承UIScrollView</p></blockquote><p>1，将UIButton所有属于UIScrollView的父视图的delaysContentTouches属性设置成为NO。</p><p>2，重写该类的- (BOOL)touchesShouldCancelInContentView:(UIView*)view方法，让其响应拖动方法。</p><p>但是但是但是！项目结构比较大即使我们定义一个类来继承UIScrollView，我们依然要在项目中改很多代码，那么我们如何解决那</p><blockquote><p>最终解决办法<br>为UIControl建一个分类通过重写touch事件来模拟系统的延迟效果，但是同时又比较优雅的处理setHighlighted的问题</p></blockquote><p>部分代码如下：</p><p>.h</p><pre><code>@interface UIControl (QMUI)@property(nonatomic,assign,readwrite) BOOL needsTakeOverTouchEvent;@end</code></pre><p>.m</p><pre><code>static char kAssociatedObjectKey_needsTakeOverTouchEvent;static char kAssociatedObjectKey_canSetHighlighted;@interface UIControl ()@property(nonatomic,assign) BOOL canSetHighlighted;@end- (void)setNeedsTakeOverTouchEvent:(BOOL)needsTakeOverTouchEvent {    objc_setAssociatedObject(self, &amp;kAssociatedObjectKey_needsTakeOverTouchEvent,         [NSNumber numberWithBool:needsTakeOverTouchEvent], OBJC_ASSOCIATION_ASSIGN);}- (BOOL)needsTakeOverTouchEvent {    return (BOOL)[objc_getAssociatedObject(self, &amp;kAssociatedObjectKey_needsTakeOverTouchEvent) boolValue];}- (void)setCanSetHighlighted:(BOOL)canSetHighlighted {    objc_setAssociatedObject(self, &amp;kAssociatedObjectKey_canSetHighlighted, [NSNumber numberWithBool:canSetHighlighted], OBJC_ASSOCIATION_ASSIGN);}- (BOOL)canSetHighlighted {    return (BOOL)[objc_getAssociatedObject(self, &amp;kAssociatedObjectKey_canSetHighlighted) boolValue];}+ (void)load {static dispatch_once_t onceToken;dispatch_once(&amp;onceToken, ^{    Class clz = [self class];    SEL beginSelector = @selector(touchesBegan:withEvent:);    SEL swizzled_beginSelector = @selector(qmui_touchesBegan:withEvent:);    SEL moveSelector = @selector(touchesMoved:withEvent:);    SEL swizzled_moveSelector = @selector(qmui_touchesMoved:withEvent:);    SEL endSelector = @selector(touchesEnded:withEvent:);    SEL swizzled_endSelector = @selector(qmui_touchesEnded:withEvent:);    SEL cancelSelector = @selector(touchesCancelled:withEvent:);    SEL swizzled_cancelSelector = @selector(qmui_touchesCancelled:withEvent:);    ReplaceMethod(clz, beginSelector, swizzled_beginSelector);    ReplaceMethod(clz, moveSelector, swizzled_moveSelector);    ReplaceMethod(clz, endSelector, swizzled_endSelector);    ReplaceMethod(clz, cancelSelector, swizzled_cancelSelector);});}- (void)qmui_touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {    if (self.needsTakeOverTouchEvent) {        self.canSetHighlighted = YES;        [self qmui_touchesBegan:touches withEvent:event];        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{            if (self.canSetHighlighted) {                [self setHighlighted:YES];            }        });    } else {        [self qmui_touchesBegan:touches withEvent:event];    }}- (void)qmui_touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {    if (self.needsTakeOverTouchEvent) {        self.canSetHighlighted = NO;        [self qmui_touchesMoved:touches withEvent:event];    } else {        [self qmui_touchesMoved:touches withEvent:event];    }}- (void)qmui_touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {    if (self.needsTakeOverTouchEvent) {        self.canSetHighlighted = NO;        if (self.touchInside) {            [self setHighlighted:YES];            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.02 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{                if (self.highlighted) {                    [self setHighlighted:NO];                }            });        } else {            [self setHighlighted:NO];        }    } else {        [self qmui_touchesEnded:touches withEvent:event];    }}- (void)qmui_touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {    if (self.needsTakeOverTouchEvent) {        self.canSetHighlighted = NO;        [self qmui_touchesCancelled:touches withEvent:event];        if (self.highlighted) {            [self setHighlighted:NO];        }    } else {        [self qmui_touchesCancelled:touches withEvent:event];    }}CG_INLINE voidReplaceMethod(Class _class, SEL _originSelector, SEL _newSelector) {    Method oriMethod = class_getInstanceMethod(_class, _originSelector);    Method newMethod = class_getInstanceMethod(_class, _newSelector);    BOOL isAddedMethod = class_addMethod(_class, _originSelector, method_getImplementation(newMethod), method_getTypeEncoding(newMethod));    if (isAddedMethod) {        class_replaceMethod(_class, _newSelector, method_getImplementation(oriMethod), method_getTypeEncoding(oriMethod));    } else {        method_exchangeImplementations(oriMethod, newMethod);    }}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;遇到的问题&quot;&gt;&lt;a href=&quot;#遇到的问题&quot; class=&quot;headerlink&quot; title=&quot;遇到的问题&quot;&gt;&lt;/a&gt;遇到的问题&lt;/h3&gt;&lt;p&gt;平时我们设置按钮的高亮状态只需要这段代码：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[self.button setImage
+      
+    
+    </summary>
+    
+    
+      <category term="iOS" scheme="http://yoursite.com/tags/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>javaScript高级（二）</title>
+    <link href="http://yoursite.com/2015/04/11/javascript%E9%AB%98%E7%BA%A7_2/"/>
+    <id>http://yoursite.com/2015/04/11/javascript高级_2/</id>
+    <published>2015-04-11T03:05:09.000Z</published>
+    <updated>2017-12-16T03:36:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><blockquote><p>格式</p></blockquote><blockquote><p>什么是闭包</p></blockquote><pre><code>通过修改返回的函数或者方法，来修改函数内部的变量。</code></pre><blockquote><p>为什么用闭包</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;闭包&quot;&gt;&lt;a href=&quot;#闭包&quot; class=&quot;headerlink&quot; title=&quot;闭包&quot;&gt;&lt;/a&gt;闭包&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;格式&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;什么是闭包&lt;/p&gt;
+&lt;/blockquo
+      
+    
+    </summary>
+    
+    
+      <category term="javaScript" scheme="http://yoursite.com/tags/javaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>javaScript高级（一）</title>
+    <link href="http://yoursite.com/2015/02/27/javascript%E9%AB%98%E7%BA%A7_1/"/>
+    <id>http://yoursite.com/2015/02/27/javascript高级_1/</id>
+    <published>2015-02-27T04:02:41.000Z</published>
+    <updated>2018-02-04T11:40:14.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>引言</p></blockquote><ul><li><p>JavaScript包含了ECMAScript、DOM、BOM</p><pre><code>ECMAScript: 规定了js的语法规则DOM：Document Object Model 给我们提供一套操作页面元素的APIBOM：Browser Object Model 操作浏览器一些信息</code></pre></li></ul><h3 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h3><blockquote><p>原型是什么玩意</p></blockquote><pre><code>当一个构造函数创建出来的时候，系统会默认帮构造函数创建并关联一个神秘的对象。(原型默认是一个空的对象)</code></pre><blockquote><p>原型用来干什么</p></blockquote><pre><code>原型中的属性和方法，可以被使用该构造函数创建的对象使用。</code></pre><blockquote><p>如何访问构造函数的原型</p></blockquote><pre><code>1，通过构造函数访问构造函数.prototype    (Person.prototype)2，通过对象访问(不推荐）__proto__属性（非标准，部分浏览器可以访问)</code></pre><blockquote><p>如何给原型对象添加属性和方法</p></blockquote><pre><code>使用对象的动态特性Person.prototype.hello = function () {        console.log(&quot;叭叭叭&quot;);    };或者可以写成这样Person.prototype = {     hello:function () {        console.log(&quot;叭叭叭&quot;);     }}</code></pre><blockquote><p>当使用对象去访问属性和方法时候</p></blockquote><pre><code>对象会先在自己内部找，如果有就用自己的，如果没有就去它的原型中查找</code></pre><blockquote><p>使用原型的主要事项</p></blockquote><pre><code>1、使用点语法进行属性赋值的时候，并不会去原型中查找，如果对象中不存在该属性，对象就会添加该属性2、一般情况下不会将属性放到原型中（为什么？）   一般情况原型中只会放共享的方法3、方法放到原型中也就是prototype中好处    如果添加到构造函数中那么不同对象的方法内存地址不同             可能考虑到内存优化因素</code></pre><blockquote><p>原型、构造函数之间的关系</p></blockquote><pre><code>构造函数.prototype -&gt; 原型原型对象创建后内部有个属性constructor执行构造函数构造函数.prototype.constructor</code></pre><blockquote><p>原型链</p></blockquote><p>  <img src="http://oibkpc91a.bkt.clouddn.com/Snip20171126_12.png" alt="原型链"></p><p><img src="http://oibkpc91a.bkt.clouddn.com/Snip20171121_3.png" alt="constructor"></p><blockquote><p>js提供了两个方法来调用其他对象的方法</p></blockquote><pre><code>call             Object.prototype.toString.call()apply</code></pre><h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><blockquote><p>继承的方式</p></blockquote><pre><code>o  obj为对象1，混入式继承for(var k in obj) {    o[k] = obj[k];}2,原型继承o.prototype = obj;</code></pre><blockquote><p>如何安全的扩展一个内置对象</p></blockquote><pre><code>function MyArray() {}MyArray.prototype = new Array();var myArray = new MyArray();myArray.push(1);</code></pre><blockquote><p>经典继承语法（ES5出来)</p></blockquote><pre><code>Object.create(对象)返回值为一个对象，继承自空号中传入的对象</code></pre><p><img src="http://oibkpc91a.bkt.clouddn.com/Snip20171124_6.png" alt="继承语法"></p><h3 id="object-prototype-的成员"><a href="#object-prototype-的成员" class="headerlink" title="object prototype 的成员"></a>object prototype 的成员</h3><blockquote><p>constructor</p></blockquote><pre><code>原型对象内属性指向构造函数</code></pre><blockquote><p>hasOwnProperty</p></blockquote><p>如果 object 具有带指定名称的属性，则 hasOwnProperty 方法返回 true，否则返回 false。此方法不会检查对象原型链中的属性；该属性必须是对象本身的一个成员。<br>Internet Explorer 8 和低于其的版本的宿主对象不支持该属性。</p><pre><code>判断对象本身是否拥有某个属性function MyArray() {}var myArray = new MyArray();var result = MyArray.prototype.hasOwnProperty(&quot;constructor&quot;);当然如果直接调用 myArray.hasOwnProperty(&quot;constructor&quot;)是错误的，因为JavaScript不同于其他面向对象语言，此方法不会检查对象原型链中的属性;</code></pre><blockquote><p>propertyIsEnumerable</p></blockquote><p>判断属性是否属于对象本身</p><pre><code>function Person() {        this.name = &quot;llz&quot;;}var p = new Person();var result = p.propertyIsEnumerable(&quot;name&quot;);output: true</code></pre><blockquote><p>toString()、toLocaleString() 把对象转换成字符串</p></blockquote><pre><code>function Person() {    this.name = &quot;llz&quot;;    this.sayhi = function () {    }}var p = new Person();console.log(p.toString(), p.toLocaleString());output: [object Object] [object Object]</code></pre><blockquote><p>valueOf 获取当前对象的值<br>proto 获取对象原型</p></blockquote><h3 id="函数-Function-对象"><a href="#函数-Function-对象" class="headerlink" title="函数 Function 对象"></a>函数 Function 对象</h3><blockquote><p>可变参数 arguments (函数内部的一个对象)</p></blockquote><pre><code>function max() {   console.log(arguments);}max(1,2,3);output: [1, 2, 3]</code></pre><blockquote><p>json 序列化 (json 字符串转换成对象)</p></blockquote><p>JSON.parse 有兼容性问题</p><pre><code>var jsonData = &apos;{&quot;name&quot;:&quot;llz&quot;,&quot;age&quot;:18}&apos;;JSON.parse(jsonData)</code></pre><p>eval() 解析json (注意json字符串前拼接 “var obj = “,或者json字符串有大括号包装着)</p><pre><code>1、var jsonData = &apos;{&quot;name&quot;:&quot;llz&quot;,&quot;age&quot;:18}&apos;;  eval(&quot;var obj = &quot; + jsonData)  console.log(obj);2、var jsonData = &apos;({&quot;name&quot;:&quot;llz&quot;,&quot;age&quot;:18})&apos;;  var obj = eval(jsonData)  console.log(obj);</code></pre><blockquote><p>instanceof (判断该构造函数的原型是否存在于该对象的原型链中)</p></blockquote><pre><code>对象 instanceof 构造函数 </code></pre><h3 id="静态成员-实例变量"><a href="#静态成员-实例变量" class="headerlink" title="静态成员 实例变量"></a>静态成员 实例变量</h3><p>静态成员：是指构造函数的属性和方法 比如 prototype、name</p><p>实例变量：是指实例的属性方法 比如 <strong>proto</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;引言&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;JavaScript包含了ECMAScript、DOM、BOM&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ECMAScript: 规定了js的语法规则
+DOM：Document Object M
+      
+    
+    </summary>
+    
+    
+      <category term="javaScript" scheme="http://yoursite.com/tags/javaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>javaScript基础语法（二）</title>
+    <link href="http://yoursite.com/2015/02/13/javascript%E5%9F%BA%E7%A1%80_2/"/>
+    <id>http://yoursite.com/2015/02/13/javascript基础_2/</id>
+    <published>2015-02-13T02:09:20.000Z</published>
+    <updated>2017-11-19T03:50:06.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="DOM操作"><a href="#DOM操作" class="headerlink" title="DOM操作"></a>DOM操作</h2><h3 id="增"><a href="#增" class="headerlink" title="增"></a>增</h3><pre><code>document.createElement()</code></pre><h3 id="删"><a href="#删" class="headerlink" title="删"></a>删</h3><h3 id="改"><a href="#改" class="headerlink" title="改"></a>改</h3><h3 id="查"><a href="#查" class="headerlink" title="查"></a>查</h3>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;DOM操作&quot;&gt;&lt;a href=&quot;#DOM操作&quot; class=&quot;headerlink&quot; title=&quot;DOM操作&quot;&gt;&lt;/a&gt;DOM操作&lt;/h2&gt;&lt;h3 id=&quot;增&quot;&gt;&lt;a href=&quot;#增&quot; class=&quot;headerlink&quot; title=&quot;增&quot;&gt;&lt;/a&gt;增&lt;/h
+      
+    
+    </summary>
+    
+    
+      <category term="javaScript" scheme="http://yoursite.com/tags/javaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>javaScript基础语法（一）</title>
+    <link href="http://yoursite.com/2015/02/11/javascript%E5%9F%BA%E7%A1%80_1/"/>
+    <id>http://yoursite.com/2015/02/11/javascript基础_1/</id>
+    <published>2015-02-11T11:34:40.000Z</published>
+    <updated>2018-02-04T03:21:18.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="基础语法"><a href="#基础语法" class="headerlink" title="基础语法"></a>基础语法</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>注释同大部分语言</p><p><b> 单行</b></p><pre><code>// 单行注释</code></pre><p><b> 多行</b></p><pre><code>/*    多行注释 */</code></pre><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><p><b> 检查数据类型的方法  typeof</b></p><p><b> NaN (Not a Number)</b></p><pre><code>console.log(&quot;z&quot; - 10) 结果：NaN</code></pre><p><b> 空数据类型（不同语言差异性比较大）</b></p><pre><code>undefined:通常情况下， 当我们试图访问某个不存在的或者没有赋值的变量时，就会得到一个undefined值null:而null值就完全是另外一回事啦。 他不能通过javascript来自动赋值，也就是说必须要我们自己手动来给某个变量赋值为null：  </code></pre><p>null、 undefined 的区别可以看这里 <a href="http://www.cnblogs.com/MockingBirdHome/p/3398440.html" target="_blank" rel="noopener">JavaScript中undefined与null的区别</a>  </p><p><b> 类型转换</b></p><blockquote><p>toString</p></blockquote><pre><code>var num = 123;var str = num.toString();</code></pre><blockquote><p>String()</p></blockquote><pre><code>var num = 123;var str = String(num);</code></pre><blockquote><p>“+”号 数值类型强转</p></blockquote><pre><code>var num = 123;var str = &quot;hello&quot;var result = num + str</code></pre><p><b> 字符串转数值类型</b></p><blockquote><p>Number()函数</p></blockquote><pre><code>var str = &quot;456&quot;var num = Number(str) 结果 456var str1 = &quot;4e5&quot;var num = Number(str1) 结果 NaN</code></pre><blockquote><p>parseInt() parseFloat()</p></blockquote><pre><code>var str = &quot;123.45guor&quot;;console.log(parseInt(str));  结果 123console.log(parseFloat(str)); 结果 123.45</code></pre><p><b> 对象类型</b></p><pre><code>var point = {x : 0, y : 0};     // 两个属性（特殊情况需要加引号比如👇）var book = {                    // 属性值有空格、连字符或者保留字必须加引号                &quot;main title&quot; : &quot;JavaScript&quot;,            &quot;sub-title&quot;  : &quot;The Definitive Guide&quot;            }var person = new Object();person.name = &quot;zs&quot;;person.speack = function() {    console.log(this.name); // this只有在对象方法内有效}</code></pre><p><b> prototype 原型</b></p><p>参考：   </p><p><a href="http://www.cnblogs.com/yjf512/archive/2011/06/03/2071914.html" target="_blank" rel="noopener">JS中的prototype</a>  </p><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain" target="_blank" rel="noopener">继承与原型链</a>  </p><p><a href="https://www.zhihu.com/question/34183746/answer/58068402" target="_blank" rel="noopener">js中<strong>proto</strong>和prototype的区别和关系？</a></p><h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><p><b> 函数作为参数</b></p><pre><code>// a, b, fn作为函数getResult的参数function getResult(a, b, fn) {       return fn(a, b);    }var result = getResult(5, 6, function (a, b) {    return a + b;});</code></pre><h3 id="变量作用域问题"><a href="#变量作用域问题" class="headerlink" title="变量作用域问题"></a>变量作用域问题</h3><blockquote><p>js不同与java、c语言特点：</p></blockquote><pre><code>{    var name = &apos;zs&apos;;}console.log(name);代码块中的变量js是可以访问的，也就是说js中只有函数中定义    的变量是局部变量，其他地方是全局变量    （当然除不带修饰符var的变量)</code></pre><blockquote><p>函数中定义变量提现声明的问题：</p></blockquote><pre><code>func();var name = &apos;ls&apos;;function  func() {    console.log(name);    var name = &quot;zs&quot;;}答案是undefined这个怎么理解那，首先程序会在函数中找name变量，如果有会打印 函数内定义的变量，而变量的定义在打印之前，程序会将变量的声明     放到打印之前定义放到打印之后，所以答案你懂得</code></pre><h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>基本类型  number string boolean</p><p>引用类型  Date String Number Object等</p><p><b> 自定义对象</b></p><blockquote><p>通过构造函数自定义对象</p></blockquote><pre><code>function Person(name, age, gender) {    this.name = name;    this.age = age;    this.gender = gender;    this.running = function() {      console.log(this.name + &quot;is running&quot;);    };}var person = new Person(&quot;xm&quot;, 19, &quot;男&quot;);person.running();</code></pre><blockquote><p>对象字面量</p></blockquote><pre><code>var student = {    name : &quot;llb&quot;,    age: 20,    gender:&quot;man&quot;,    sayHi:function () {      console.log(&quot;wo shi&quot; + this.name);    }};</code></pre><blockquote><p>输出对象的属性和方法(for in)</p></blockquote><pre><code> for(var key in student) {   console.log(key);}</code></pre><blockquote><p>判断对象是否含有某个属性（in/indexOf)</p></blockquote><pre><code>var obj = {    name:&quot;llz&quot;,    age:18,};// 注意name是字符串var isExist = &quot;name&quot; in obj; // truevar arr = [1,45,3,10];indexOf() 方法返回指定值对应的索引(没有找到返回-1）</code></pre><blockquote><p>给对象添加属性和方法（其他编译性语言实现起来比较麻烦)</p></blockquote><pre><code>var person = {        name:&quot;llz&quot;,        age:18    };// 添加属性height 方法sayHi、sleep     person.height = 1.8;// 点语法添加方法sayHiperson.sayHi = function () {    console.log(person.name + &quot;sayHi I&apos;s height :&quot; + person.height);};// [字符串]添加方法sayHiperson[&quot;sleep&quot;] = function () {    console.log(person.age + &quot;sayHi I&apos;s height :&quot; + person.height);};</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;基础语法&quot;&gt;&lt;a href=&quot;#基础语法&quot; class=&quot;headerlink&quot; title=&quot;基础语法&quot;&gt;&lt;/a&gt;基础语法&lt;/h2&gt;&lt;h3 id=&quot;注释&quot;&gt;&lt;a href=&quot;#注释&quot; class=&quot;headerlink&quot; title=&quot;注释&quot;&gt;&lt;/a&gt;注释&lt;/h
+      
+    
+    </summary>
+    
+    
+      <category term="javaScript" scheme="http://yoursite.com/tags/javaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>git 常用命令</title>
+    <link href="http://yoursite.com/2014/10/12/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E6%93%8D%E4%BD%9C/"/>
+    <id>http://yoursite.com/2014/10/12/git常用命令操作/</id>
+    <published>2014-10-12T02:02:59.000Z</published>
+    <updated>2017-11-25T12:49:18.000Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+      <category term="git" scheme="http://yoursite.com/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CSS用法</title>
+    <link href="http://yoursite.com/2014/09/15/css%20%E4%BD%BF%E7%94%A8/"/>
+    <id>http://yoursite.com/2014/09/15/css 使用/</id>
+    <published>2014-09-15T12:30:49.000Z</published>
+    <updated>2018-03-24T04:00:08.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><p>文字属性</p><pre><code>样式 font-style: italic、normal;粗细 font-weight: bold、lighter;大小 font-size: 20px;字体 font-family:‘微软雅黑’居中 text-align:center行高 line-height: 100px;</code></pre><p>布局</p><h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><pre><code>1，像行内元素例如：a、img、span等想要设置宽高的话，需要把行内 标签转换成行内块级元素</code></pre><h3 id="常用的内容："><a href="#常用的内容：" class="headerlink" title="常用的内容："></a>常用的内容：</h3><pre><code>1，如果在标签内id、class属性内同时作用，id高于class会覆盖class作用的属性可以在后面加!important 修饰符2，数字判断：isNaN(内容) 判断内容是不是数字3，js中设置class属性：拿到标签设置 &quot;.className = &quot;</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;CSS&quot;&gt;&lt;a href=&quot;#CSS&quot; class=&quot;headerlink&quot; title=&quot;CSS&quot;&gt;&lt;/a&gt;CSS&lt;/h2&gt;&lt;h3 id=&quot;属性&quot;&gt;&lt;a href=&quot;#属性&quot; class=&quot;headerlink&quot; title=&quot;属性&quot;&gt;&lt;/a&gt;属性&lt;/h3&gt;&lt;p
+      
+    
+    </summary>
+    
+    
+      <category term="HTML" scheme="http://yoursite.com/tags/HTML/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Markdown--简单语法</title>
+    <link href="http://yoursite.com/2014/06/15/markdown%E8%AF%AD%E6%B3%95/"/>
+    <id>http://yoursite.com/2014/06/15/markdown语法/</id>
+    <published>2014-06-15T08:12:07.000Z</published>
+    <updated>2017-10-22T03:18:13.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Markdow–入门"><a href="#Markdow–入门" class="headerlink" title="Markdow–入门"></a>Markdow–入门</h2><h3 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h3><blockquote><p>这里记录下简单的markdow 语法便于以后查阅。</p></blockquote><h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>文章内容较多时，可以用标题分段：</p><pre><code>标题1======标题2-----## 大标题 ### 小标题 </code></pre><h3 id="粗斜体"><a href="#粗斜体" class="headerlink" title="粗斜体"></a>粗斜体</h3><pre><code>*斜体文本***粗体文本*****粗斜体文本*** </code></pre><h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><pre><code>文字链接 [链接名称](http://链接网址) 例如:[博客地址](http://https://lbflyboy.github.io)网址链接 &lt;http://链接网址&gt; </code></pre><h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>普通引用 </p><pre><code>&gt; 引用文本前使用 [大于号+空格]</code></pre><h3 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h3><p>跟链接的方法区别在于前面加了个感叹号 !，这样是不是觉得好记多了呢？</p><pre><code>![图片名称](http://图片网址)</code></pre><p>也可以使用 HTML 的图片语法来自定义图片的宽高大小</p><pre><code>&lt;img src=&quot;htt://example.com/sample.png&quot; width=&quot;400&quot; height=&quot;100&quot;&gt;</code></pre><h3 id="换行"><a href="#换行" class="headerlink" title="换行"></a>换行</h3><p>如果另起一行，只需在当前行结尾加 2 个空格</p><h3 id="分隔符"><a href="#分隔符" class="headerlink" title="分隔符"></a>分隔符</h3><p>如果你有写分割线的习惯，可以新起一行输入三个减号-。当前后都有段落时，请空出一行：</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Markdow–入门&quot;&gt;&lt;a href=&quot;#Markdow–入门&quot; class=&quot;headerlink&quot; title=&quot;Markdow–入门&quot;&gt;&lt;/a&gt;Markdow–入门&lt;/h2&gt;&lt;h3 id=&quot;导语&quot;&gt;&lt;a href=&quot;#导语&quot; class=&quot;headerli
+      
+    
+    </summary>
+    
+    
+      <category term="Markdow" scheme="http://yoursite.com/tags/Markdow/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python基础语法（一）</title>
+    <link href="http://yoursite.com/2014/05/15/python%E8%AF%AD%E6%B3%95%20/"/>
+    <id>http://yoursite.com/2014/05/15/python语法 /</id>
+    <published>2014-05-15T03:21:34.000Z</published>
+    <updated>2017-11-11T02:56:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="python基础语法（一）"><a href="#python基础语法（一）" class="headerlink" title="python基础语法（一）"></a>python基础语法（一）</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>单行注释</p><pre><code>用#号、三个单引号或者三个双引号加代码来注释如：# 第一步   print &apos;第一步&apos;   # 第二步   print &apos;第二步&apos;</code></pre><p>多行注释</p><pre><code>’‘’ 这里是注释 &apos;&apos;&apos;&quot;&quot;&quot; 这里是注释 &quot;&quot;&quot;</code></pre><p>特殊注释</p><pre><code># encoding = utf-8（等同于：# _*_ coding:utf-8 _*_)python2 中不支持项目代码中注释中文</code></pre><h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>变量定义方法很简单（跟其他编程语言比较起来来看真滴太simple）</p><pre><code>x = 5str = &quot;abc&quot;    </code></pre><h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul><li>Numbers (数值类型）</li><li>Bool （Ture/False)</li><li>String </li><li>List</li><li>Set</li><li>Tuple (元组）</li><li>Dictory</li><li>NoneType (空类型)       </li></ul><h4 id="查看数据类型方法："><a href="#查看数据类型方法：" class="headerlink" title="查看数据类型方法："></a>查看数据类型方法：</h4><pre><code>type(数据)</code></pre><h4 id="类型转换"><a href="#类型转换" class="headerlink" title="类型转换"></a>类型转换</h4><p>python为强类型语言，不同类型的数据不能参与计算，所以会涉及到类型转换，例如：</p><pre><code>a = 3b = &apos;4&apos;c = a + b运行的话会报错，因为变量a、b的数据类型不一致，需要转换成数据类型一致c = a + int(b) 或者 c = str(a) + b</code></pre><h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><p>幂运算: 3 的 10 次方</p><pre><code>3 ** 10</code></pre><p>除法: 5 除以 2</p><pre><code>除法 5 / 2 = 2.5整除 5 // 2 = 2余数 5 % 2 = 1</code></pre><p>比较运算符：10 大于 5 小于 20 如果其他编程语言形式为：</p><pre><code>num = 10其他编程语言  num &gt; 5 &amp;&amp; num &lt; 20python语言   5 &lt; num &lt; 20</code></pre><h3 id="输入-输出"><a href="#输入-输出" class="headerlink" title="输入/输出"></a>输入/输出</h3><h4 id="输入"><a href="#输入" class="headerlink" title="输入"></a>输入</h4><p>python2</p><pre><code>raw_input() 用户输入的内容为字符串处理  input()     用户输入的内容当做代码处理  eval()      函数就是把接受到的结果当做代码来处理  例如：  result = eval(&quot;1+1&quot;)  reslut = 2  所以input可以看做是raw_input 和 eval综合的结果</code></pre><p>python3</p><pre><code>input()    用户输入的内容为字符串处理</code></pre><h4 id="输出"><a href="#输出" class="headerlink" title="输出"></a>输出</h4><p>python2/3</p><pre><code>标准化输出name = &quot;jim&quot;age  = 18print &quot;我的名字是%s年龄是%d&quot;%(name,age)或print &quot;我的名字是{0}年龄是{1}&quot;,format(name,age)</code></pre><p>python3</p><pre><code>sepprint(1,2,3, sep=&quot;&amp;&quot;)  结果：1&amp;2&amp;3</code></pre><h3 id="分支语句-if-elif"><a href="#分支语句-if-elif" class="headerlink" title="分支语句 if   elif"></a>分支语句 if   elif</h3><p>条件判断  </p><p>分数大于80并且小于100写法</p><pre><code>score = 90写法一    if score &gt;=80 and score &lt;=100:写法二  if 80 &lt;= score &lt;= 100:</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;python基础语法（一）&quot;&gt;&lt;a href=&quot;#python基础语法（一）&quot; class=&quot;headerlink&quot; title=&quot;python基础语法（一）&quot;&gt;&lt;/a&gt;python基础语法（一）&lt;/h2&gt;&lt;h3 id=&quot;注释&quot;&gt;&lt;a href=&quot;#注释&quot; cla
+      
+    
+    </summary>
+    
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
+  </entry>
+  
+</feed>

@@ -1,0 +1,544 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>iOS 图片（一） | canflyboy&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="kevin li">
+    
+
+    
+    <meta name="description" content="一：常见的图片格式、概念1.1 常见图片格式 png、jpeg(jpg)、gif、webP、pdf (矢量图) 疑惑1：jpeg、jpg 啥关系？ jpg 是 jpeg 的简写缩写，jpg 是后缀名、jpeg 既可以是后缀名，也可以代表图片文件的格式 1.2 以上常见图片有什么区别 1.2.1 概念 位图：就是一个像素数组,数组中的每个像素就代表着图片中的一个点。我们在应用中经常用到的  JPEG">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS 图片（一）">
+<meta property="og:url" content="http://yoursite.com/2015/11/07/图片优化/index.html">
+<meta property="og:site_name" content="canflyboy&#39;s blog">
+<meta property="og:description" content="一：常见的图片格式、概念1.1 常见图片格式 png、jpeg(jpg)、gif、webP、pdf (矢量图) 疑惑1：jpeg、jpg 啥关系？ jpg 是 jpeg 的简写缩写，jpg 是后缀名、jpeg 既可以是后缀名，也可以代表图片文件的格式 1.2 以上常见图片有什么区别 1.2.1 概念 位图：就是一个像素数组,数组中的每个像素就代表着图片中的一个点。我们在应用中经常用到的  JPEG">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2017-12-13T13:19:31.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS 图片（一）">
+<meta name="twitter:description" content="一：常见的图片格式、概念1.1 常见图片格式 png、jpeg(jpg)、gif、webP、pdf (矢量图) 疑惑1：jpeg、jpg 啥关系？ jpg 是 jpeg 的简写缩写，jpg 是后缀名、jpeg 既可以是后缀名，也可以代表图片文件的格式 1.2 以上常见图片有什么区别 1.2.1 概念 位图：就是一个像素数组,数组中的每个像素就代表着图片中的一个点。我们在应用中经常用到的  JPEG">
+
+    
+    <link rel="alternative" href="/atom.xml" title="canflyboy&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.jpg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.jpg" alt="canflyboy&#39;s blog" title="canflyboy&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="canflyboy&#39;s blog">canflyboy&#39;s blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/11/07/图片优化/" title="iOS 图片（一）" itemprop="url">iOS 图片（一）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="kevin li" target="_blank" itemprop="author">kevin li</a>
+		
+  <p class="article-time">
+    <time datetime="2015-11-07T02:21:45.000Z" itemprop="datePublished"> 发表于 2015-11-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一：常见的图片格式、概念"><span class="toc-number">1.</span> <span class="toc-text">一：常见的图片格式、概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二：imageNamed、imageWithContentsOfFile、imageWithData-方法区别"><span class="toc-number">2.</span> <span class="toc-text">二：imageNamed、imageWithContentsOfFile、imageWithData 方法区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三：重新绘制图片，生成新的解压缩后的位图"><span class="toc-number">3.</span> <span class="toc-text">三：重新绘制图片，生成新的解压缩后的位图</span></a></li></ol>
+		
+		</div>
+		
+		<h3 id="一：常见的图片格式、概念"><a href="#一：常见的图片格式、概念" class="headerlink" title="一：常见的图片格式、概念"></a>一：常见的图片格式、概念</h3><p>1.1 常见图片格式</p>
+<p>png、jpeg(jpg)、gif、webP、pdf (矢量图)</p>
+<pre><code>疑惑1：jpeg、jpg 啥关系？
+jpg 是 jpeg 的简写缩写，jpg 是后缀名、jpeg 既可以是后缀名，也可以代表图片文件的格式
+</code></pre><p>1.2 以上常见图片有什么区别</p>
+<p>1.2.1 概念</p>
+<pre><code>位图：就是一个像素数组,数组中的每个像素就代表着图片中的一个点。我们在应用中经常用到的 
+JPEG 和 PNG 图片就是位图。组成单位(像素)，特点缩放和旋转容易失真，同时文件容量较大
+
+像素: 一个像素所能表达的不同颜色数取决于比特每像素(BPP),通俗讲例如 8bit 位、16 比特位
+分别会有 256 色、65536 色。
+
+矢量图：组成单位(数学向量也就是矢量，比如物理学中的速度、加速度有大小和方向),放大后图像
+      不会失真，和分辨率无关(比如 iPhone 上的图片只需要一套，不需要区分 2x、3x,
+      可以减小资源包体积)
+
+透明通道: 透明通道也称 Alpha 通道，代表数字图像中像素点的透明信息。白色的 Alpha 像素用以定义
+不透明的彩色像素，而黑色的 Alpha 定以透明像素，黑白之间的灰阶则是彩色图片中的半透明部分
+
+硬编码、软编码、硬解码、软解码: 硬效率（细节看备注）
+</code></pre><p>1.2.2 位图间区别</p>
+<blockquote>
+<p>png、jpeg(jpg)、gif、webP 都为一种压缩了的位图图像</p>
+</blockquote>
+<p>特点:</p>
+<pre><code>jepg: 支持有损压缩、可以控制压缩比、图像质量换得存储空间(iPhone 支持 jpeg 的硬编码和硬解码)
+
+png:  只支持无损压缩,压缩比是有上限的,优势在于支持完整的透明通道
+
+gif:  通常情况下只支持 256 种颜色、透明通道只有 1 bit、文件压缩比不高,  优势支持多帧动画
+
+webP: 支持有损和无损压缩、支持完整的透明通道、也支持多帧动画，并且没有版权问题，是一种 
+      非常理想的图片格式,例如微博、微信、QQ、淘宝、网易新闻等等，每个 App 里都有 WebP 的身影
+</code></pre><p>1.2.3 项目资源图片优化</p>
+<p>Ⅰ) <a href="https://tinypng.com/" target="_blank" rel="noopener"> png 图片压缩</a></p>
+<pre><code>png 图片压缩,不是所 png 是无损压缩吗？怎么还压缩这里注意无损压缩不是 png 图片不支持压缩，
+是图片压缩有度
+</code></pre><p>Ⅱ) <a href="https://github.com/JohnWong/IconFont" target="_blank" rel="noopener">使用 IconFont </a></p>
+<pre><code>优点：
+    1、图标集中处理，避免重复资源，设计师只要说明 Color、Size 就可以了
+    2、减少包大小，每个 IconFont 只是一小段文本，文件大小要比图片形式的 icon 小一个数量级
+    3、节省内存，IconFont 与普通文本一样是使用矢量图的方式绘制的
+特点：
+    针对一些简单的图
+</code></pre><p>Ⅲ) 使用 pdf 格式图片</p>
+<pre><code>pdf 为矢量图跟屏幕分辨率没有关系，放到 xcode Assets.xcassets 目录中，iOS 本质上并不支持矢量图, 
+但是在编译阶段会将矢量图转化成目标设备对应的尺寸图(例如设备为 iPhone6 会生成对应的 2x 图片),
+ 同时会利用 xcassets 的特性在 iOS8.3 以上设备下支持部分资源下载, 包瘦身的效果。
+</code></pre><h3 id="二：imageNamed、imageWithContentsOfFile、imageWithData-方法区别"><a href="#二：imageNamed、imageWithContentsOfFile、imageWithData-方法区别" class="headerlink" title="二：imageNamed、imageWithContentsOfFile、imageWithData 方法区别"></a>二：imageNamed、imageWithContentsOfFile、imageWithData 方法区别</h3><p>2.1 imageNamed:</p>
+<pre><code>加载过程大概就是先从系统缓存中查找是否有，如果有就会直接加载；如果缓存中没有会查找这个方法从指定的 
+filePath 中加载然后缓存并返回这个对象。
+</code></pre><p>注意：<br>缓存数据存储在全局缓存中，不会随着 UIImag 的释放而释放。缓存由系统管理程序员无法操作<br>所以这个方法的优点就是当加载时会缓存图片，我们一般加载经常使用的图片会使用该方法。</p>
+<p>2.2 imageWithContentsOfFile、imageWithData</p>
+<pre><code>只加载图片，不会缓存图片数据，适合较大图片或者使用频次少的图片。
+</code></pre><p>注意：<br>这里说的不会缓存图片是相对 imageNamed: 方法的，imageWithContentsOfFile、imageWithData 的缓存会随 UIImage 对象的释放而释放</p>
+<p>2.3 解惑</p>
+<p>I) UIImage 中的缓存是怎么来的</p>
+<pre><code>当调用 imageNamed: 方法时，系统会到指定 filepath 找对应的图片资源文件,然后将文件名
+放到 UIImage 对象中返回，并没有发生图片资源的读取或者解码操作。当 UIImage 对象
+赋值给 UIImageView 对象，UIImageView 渲染到屏幕上后系统才会真正调用解码方法，
+同时会将解码结果放到全局的缓存队列中，这个缓存只有在 APP 收到内存警告或推到后台才会清除。
+</code></pre><p>Ⅱ) imageWithContentsOfFile、imageWithData 同样会有缓存</p>
+<pre><code>通过数据创建 UIImage 时，UIImage底层会调用 ImageIO 的 CGImageSourceCreateWithData() 方法，
+该方法可以指定是否要缓存解码后的数据，在64位机器上默认需要缓存（kCGImageSourceShouldCache）。
+之后再调用 CGImageSourceCreateImageAtIndex() 可以设置是否需要立即进行
+解码（kCGImageSourceShouldCacheImmediately），如果设置为不需要立刻解码，同样也是在图片渲染
+到屏幕上后系统才会真正调用解码方法，解码数据会缓存到 CGImage 内部与上面的方法不同，
+这种方式创建的缓存会随着 UIImage 的释放而被释放掉。
+</code></pre><p>Ⅲ) 缓存解压缩数据目前有什么问题</p>
+<pre><code>我们知道了图片渲染到屏幕上，解压缩是必须的,因为 png、jpeg 都是经过压缩的位图。解压缩过程默认发生在
+主线程，如果加载大量图片肯定会影响性能
+</code></pre><h3 id="三：重新绘制图片，生成新的解压缩后的位图"><a href="#三：重新绘制图片，生成新的解压缩后的位图" class="headerlink" title="三：重新绘制图片，生成新的解压缩后的位图"></a>三：重新绘制图片，生成新的解压缩后的位图</h3><p>网络图片库通用做法：把图片用 CGContextDrawImage() 绘制到画布上，然后把画布数据取出当做数据</p>
+<pre><code>大概涉及到的方法：
+CGImageSourceRef imageSource = CGImageSourceCreateIncremental(NULL)  //创建一个空的图片源
+CGImageSourceUpdateData(imageSource,data, false) // 新数据来更新图片源
+CGImageRef partialImageRef = CGImageSourceCreateImageAtIndex(imageSource,0,NULL) 
+    // 创建图片来显示。
+CGContextRef context = CGBitmapContextCreate(NULL, width, height, 像素的每个颜色
+分量使用的 bit 数, 位图的每一行使用的字节数, 颜色空间, 位图的布局信息);
+CGContextDrawImage(context,{0,0,w,h},partialImageRef)
+partialImageRef = CGBitmapContextCreateImage(bmContext)
+[UIImage imageWithCGImage:partialImageRef scale:1 orientation:orientation];
+</code></pre><p>备注: </p>
+<p><a href="http://www.jianshu.com/p/f8af20a5241c" target="_blank" rel="noopener">事务</a></p>
+<p><a href="http://blog.csdn.net/zhubosa/article/details/51282246" target="_blank" rel="noopener">简单谈谈硬编码和软编码</a></p>
+<p><a href="https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_images/dq_images.html#//apple_ref/doc/uid/TP30001066-CH212-SW3" target="_blank" rel="noopener">位图</a></p>
+<p><a href="https://baike.baidu.com/item/%E7%9F%A2%E9%87%8F%E5%9B%BE" target="_blank" rel="noopener">矢量图</a></p>
+<p><a href="http://blog.corneliamu.com/archives/95" target="_blank" rel="noopener">http://blog.corneliamu.com/archives/95</a></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/iOS/">iOS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2015/11/07/图片优化/" data-title="iOS 图片（一） | canflyboy&#39;s blog" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2015/09/11/button高亮_iOS/"  title="UIButton 高亮状态无效问题">
+ <strong>下一篇：</strong><br/> 
+ <span>UIButton 高亮状态无效问题
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#一：常见的图片格式、概念"><span class="toc-number">1.</span> <span class="toc-text">一：常见的图片格式、概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#二：imageNamed、imageWithContentsOfFile、imageWithData-方法区别"><span class="toc-number">2.</span> <span class="toc-text">二：imageNamed、imageWithContentsOfFile、imageWithData 方法区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#三：重新绘制图片，生成新的解压缩后的位图"><span class="toc-number">3.</span> <span class="toc-text">三：重新绘制图片，生成新的解压缩后的位图</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/javaScript/" title="javaScript">javaScript<sup>4</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/iOS/" title="iOS">iOS<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/git/" title="git">git<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Markdow/" title="Markdow">Markdow<sup>1</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/python/" title="python">python<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://yulingtianxia.com/#" target="_blank" title="yulingtianxia&#39;s Blog">yulingtianxia&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Make it run, make it run right, make it run fast <br/>
+			Time and tide wait for no man.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/lbFlyBoy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="kevin li">kevin li</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
