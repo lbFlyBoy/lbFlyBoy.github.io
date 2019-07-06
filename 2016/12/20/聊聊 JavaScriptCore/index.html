@@ -1,0 +1,485 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  
+    <title>聊聊 JavaScriptCore) | 程序猿BANG Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="dreamlee">
+    
+
+    
+    <meta name="description" content="前言** 动态化是移动开发技术中的重要的一部分 ，当前普遍的动态化方案 ， 如 React Native 、Weex 、Hybrid部分解决方案及之前流行的热修复框架 JSPatch ，背后都用到了 JavaScriptCore 框架 ，由它建立起 OC 跟 JS 语言沟通的桥梁 。 JavaScriptCore 介绍 JavaScriptCore 是 Safari 浏览器 JavaScript">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="聊聊 JavaScriptCore)">
+<meta property="og:url" content="http://yoursite.com/2016/12/20/聊聊 JavaScriptCore/index.html">
+<meta property="og:site_name" content="程序猿BANG Blog">
+<meta property="og:description" content="前言** 动态化是移动开发技术中的重要的一部分 ，当前普遍的动态化方案 ， 如 React Native 、Weex 、Hybrid部分解决方案及之前流行的热修复框架 JSPatch ，背后都用到了 JavaScriptCore 框架 ，由它建立起 OC 跟 JS 语言沟通的桥梁 。 JavaScriptCore 介绍 JavaScriptCore 是 Safari 浏览器 JavaScript">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-06T02:01:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="聊聊 JavaScriptCore)">
+<meta name="twitter:description" content="前言** 动态化是移动开发技术中的重要的一部分 ，当前普遍的动态化方案 ， 如 React Native 、Weex 、Hybrid部分解决方案及之前流行的热修复框架 JSPatch ，背后都用到了 JavaScriptCore 框架 ，由它建立起 OC 跟 JS 语言沟通的桥梁 。 JavaScriptCore 介绍 JavaScriptCore 是 Safari 浏览器 JavaScript">
+
+    
+    <link rel="alternative" href="/atom.xml" title="程序猿BANG Blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.jpeg">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpeg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpeg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.jpeg" alt="程序猿BANG Blog" title="程序猿BANG Blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="程序猿BANG Blog">程序猿BANG Blog</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/tags">标签</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/12/20/聊聊 JavaScriptCore/" title="聊聊 JavaScriptCore)" itemprop="url">聊聊 JavaScriptCore)</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="dreamlee" target="_blank" itemprop="author">dreamlee</a>
+		
+  <p class="article-time">
+    <time datetime="2016-12-20T02:27:50.000Z" itemprop="datePublished"> 发表于 2016-12-20</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<p>前言**</p>
+<p>动态化是移动开发技术中的重要的一部分 ，当前普遍的动态化方案 ， 如 React Native 、Weex 、Hybrid部分解决方案及之前流行的热修复框架 JSPatch ，背后都用到了 JavaScriptCore 框架 ，由它建立起 OC 跟 JS 语言沟通的桥梁 。</p>
+<p><strong>JavaScriptCore 介绍</strong></p>
+<p>JavaScriptCore 是 Safari 浏览器 JavaScript 引擎 ，它用来解释和执行 JavaScript 代码 。</p>
+<p>JavaScriptCore 框架是一个苹果在 iOS7 引入的框架 ，该框架让 Objective-C 和 JavaScript 代码直接的交互变得更加的简单方便 ，其实就是基于 webkit 中以C/C++实现的 JavaScriptCore 的一个 OC 版本的封装 。</p>
+<p>JavaScriptCore 和 JavaScriptCore 框架是不同的两个概念 ，可以自己理解下 。</p>
+<p><strong>OC 调用 JS 代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 直接执行js代码JSContext *cxt = [JSContext new];JSValue *val =  [cxt evaluateScript:@&quot;(function ocCallJS() &#123; return &apos;ocCallJS&apos;&#125;)()&quot;];NSLog(@&quot;%@&quot;,[val toString]); // ocCallJS</span><br><span class="line">// 注册js方法，利用JSValue调用JSContext *cxt = [JSContext new];JSValue *jsFunction = [cxt evaluateScript:@&quot; (function(arg) &#123; return arg &#125;)&quot;];JSValue *val = [jsFunction callWithArguments:@[@&quot;hello objc&quot;]];NSLog(@&quot;%@&quot;,[val toString]); // hello objc</span><br></pre></td></tr></table></figure>
+<p>这里有几个对象理解下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSContext</span><br></pre></td></tr></table></figure>
+<p>JSContext 对象表示 JavaScript 执行环境 ，所有 JavaScript 执行发生在上下文 ， 所有 JavaScript 值中与上下文联系在一起 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JSValue</span><br></pre></td></tr></table></figure>
+<p>JSValue 实例是对 JavaScript 值的包装 ( 引用 ) ，您可以使用 JSValue 类在 JavaScript 和 Objective-C 或 Swift 表示之间转换基本值（例如数字和字符串），以便在本机代码和 JavaScript 代码之间传递数据。您还可以使用此类创建 JavaScript 对象，这些对象包含自定义类或 JavaScript 函数的本机对象，这些函数的实现由本机方法或块提供。</p>
+<p><strong>JS 调用 OC 代码</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Block方式</span><br><span class="line">// 注册一个 oc 方法给 js 调用JSContext *cxt = [JSContext new];cxt[@&quot;nativeMethod&quot;] = ^(NSString *msg) &#123;  NSLog(@&quot;%@&quot;,msg);    //  jsCallOC&#125;;// js 调用 oc 的方法[cxt evaluateScript:@&quot;nativeMethod(&apos;jsCallOC&apos;)&quot;];  </span><br><span class="line">JSExport方式</span><br><span class="line">// 定义类 暴露给 js@protocol JSBridgeObjProtocol &lt;JSExport&gt;- (NSString *)fetchArticleContent;@end</span><br><span class="line">@interface JSBridgeObj : NSObject&lt;JSBridgeObjProtocol&gt;@property (nonatomic, copy) NSString *articleTitle;- (NSString *)fetchArticleContent;@end</span><br><span class="line">@implementation JSBridgeObj- (NSString *)fetchArticleContent &#123;    return @&quot;js call oc&quot;;&#125;@end</span><br><span class="line">// js 调用 oc 方法JSContext *cxt = [JSContext new];cxt[@&quot;jsBridge&quot;] = [JSBridgeObj new];JSValue *val = [cxt           evaluateScript:@&quot;jsBridge.fetchArticleContent()&quot;];NSLog(@&quot;%@&quot;,[val toString]); // js call oc</span><br></pre></td></tr></table></figure>
+<p>JXExport 实现的协议将 OC 类及其实例方法，类方法和属性导出到 JavaScript 代码</p>
+<p>这样基于 JSContext 我们可以完成两种语言间通信</p>
+<p><strong>Hybrid 中的应用</strong></p>
+<p>APP 混合开发中 ，在 UIWebView 中获取 JSContext 对象 ，该操作借用了苹果的私有方法 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">// 获取当前 WebView 的 JS 上下文JSContext *context=[webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];</span><br></pre></td></tr></table></figure>
+<p>不过该方法获取 JS 上下文有几个问题：</p>
+<p>1 ) 获取 JS 上下文的时机不确定 ，比如创建 UIWebView 对象 ，UIWebView 不同代理回调方法中获取到 JS 上下文都是不一样的 ，而且每次加载一个新的 URL 时 ， 都会废弃旧的 JS 上下文 ，创建新的 JS 上下文 。</p>
+<p>因此获取 JS 上下文的时间点很重要 ，也就是在刚刚创建好新的 JS 上下文那一刻 。</p>
+<p>只不过苹果并没有在 iOS 的 SDK 中暴露出来 ，而 macOS 的 SDK 中有获取创建好的 JS 上下文的代理方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">webView:didCreateJavaScriptContext:forFrame:</span><br></pre></td></tr></table></figure>
+<p>在 GitHub 上有这样一个项目 TS_JavaScriptContext 可以拿到了 JS 上下文创建的事件 ，只不过也是改获取方法也是苹果的私有 API ， 原来项目中使用了这个库上架苹果应用商店没有问题 ，现在审核情况不太了解 。</p>
+<p>2 ） WKWebView 目前我还没有找到获取 JS 上下文的方法</p>
+<p>在 UIWebView 中获取 JS 上下文的方法在 WKWebView 中是不起作用的 。</p>
+<p>WKWebView 不支持 JavaScriptCore 的方式, 但提供 messagehandler 的方式为 JS 与 OC 通信 。关于 WKWebView 相关知识 ，后续再聊 。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/iOS/">iOS</a>
+  </div>
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2016/12/20/聊聊 JavaScriptCore/" data-title="聊聊 JavaScriptCore) | 程序猿BANG Blog" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2018/11/07/Flutter 开发环境搭建 ( For Mac )/" title="Flutter 开发环境搭建 ( For Mac )">
+  <strong>上一篇：</strong><br/>
+  <span>
+  Flutter 开发环境搭建 ( For Mac )</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2015/11/07/图片优化/"  title="iOS 图片（一）">
+ <strong>下一篇：</strong><br/> 
+ <span>iOS 图片（一）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+  
+  <div class="tagcloudlist">
+    <p class="asidetitle">标签云</p>
+    <div class="tagcloudlist clearfix">
+       <a href="/tags/HTML/" style="font-size: 10px;">HTML</a> <a href="/tags/Markdow/" style="font-size: 10px;">Markdow</a> <a href="/tags/flutter/" style="font-size: 20px;">flutter</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/iOS/" style="font-size: 13.33px;">iOS</a> <a href="/tags/javaScript/" style="font-size: 16.67px;">javaScript</a> <a href="/tags/python/" style="font-size: 10px;">python</a>
+    </div>
+  </div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://onevcat.com/#blog" target="_blank" title="OneV&#39;s Den">OneV&#39;s Den</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://mrpeak.cn/" target="_blank" title="MrPeak杂货铺">MrPeak杂货铺</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://blog.devtang.com/" target="_blank" title="唐巧的博客">唐巧的博客</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://yulingtianxia.com/#" target="_blank" title="yulingtianxia&#39;s Blog">yulingtianxia&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Make it run, make it run right, make it run fast <br/>
+			Time and tide wait for no man.</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/lbFlyBoy" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:kenvinfly@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="dreamlee">dreamlee</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
